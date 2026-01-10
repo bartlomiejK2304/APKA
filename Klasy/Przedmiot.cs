@@ -8,6 +8,6 @@ namespace Klasy
 {
     public class Przedmiot
     {
-        public string Nawzwa { get; set; }
+        public string ?Nazwa { get; set; }
     }
 }
