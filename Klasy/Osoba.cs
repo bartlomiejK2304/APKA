@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Klasy;
 
 namespace APKA
 {
@@ -12,6 +13,14 @@ namespace APKA
         public string ?Nazwisko { get; set; }
 
         private string _pesel = string.Empty;
+
+        protected Osoba(string imie, string nazwisko, string pesel)
+        {
+            Imie = imie;
+            Nazwisko = nazwisko;
+            Pesel = pesel;
+            Pesel = pesel;
+        }
 
         public string Pesel
         {
@@ -28,6 +37,8 @@ namespace APKA
                 }
             }
         }
+
+        
     }
 
 }
