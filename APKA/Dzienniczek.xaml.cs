@@ -43,12 +43,12 @@ namespace APKA
         }
         private void btnPoprzedni_Click(object sender, RoutedEventArgs e)
         {
-            // logika przycisku "Poprzedni"
+            
         }
 
         private void btnNastepny_Click(object sender, RoutedEventArgs e)
         {
-            // logika przycisku "Następny"
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -58,7 +58,7 @@ namespace APKA
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
-            // Example: show corresponding view depending on sender or button name
+            
             if (sender is Button btn)
             {
                 switch (btn.Name)
