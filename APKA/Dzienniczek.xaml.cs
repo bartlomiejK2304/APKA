@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace APKA
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Dzienniczek.xaml
-    /// </summary>
+    
     public partial class Dzienniczek : UserControl
     {
         public Dzienniczek()
@@ -51,39 +49,26 @@ namespace APKA
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-            if (sender is Button btn)
-            {
-                switch (btn.Name)
-                {
-                    case "btnStudenci":
-                        WidokStudenci.Visibility = Visibility.Visible;
-                        WidokOceny.Visibility = Visibility.Collapsed;
-                        break;
-                    case "btnOceny":
-                        WidokOceny.Visibility = Visibility.Visible;
-                        WidokStudenci.Visibility = Visibility.Collapsed;
-                        break;
-                    default:
-                        WidokStudenci.Visibility = Visibility.Collapsed;
-                        WidokOceny.Visibility = Visibility.Collapsed;
-                        break;
-                }
-            }
-        }
-
+        
         private void BackToMenu_Click(object sender, RoutedEventArgs e)
         {
             WidokStudenci.Visibility = Visibility.Collapsed;
             WidokOceny.Visibility = Visibility.Collapsed;
+            PanelMenu.Visibility = Visibility.Visible;
         }
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            
+            PanelMenu.Visibility = Visibility.Collapsed;
+
+            
+            if (btn.Name == "btnOcenyMenu")
+                WidokOceny.Visibility = Visibility.Visible;
+            else
+                WidokStudenci.Visibility = Visibility.Visible;
+        }
+
     }
 
 
