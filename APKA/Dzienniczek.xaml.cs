@@ -51,7 +51,39 @@ namespace APKA
             // logika przycisku "Następny"
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Example: show corresponding view depending on sender or button name
+            if (sender is Button btn)
+            {
+                switch (btn.Name)
+                {
+                    case "btnStudenci":
+                        WidokStudenci.Visibility = Visibility.Visible;
+                        WidokOceny.Visibility = Visibility.Collapsed;
+                        break;
+                    case "btnOceny":
+                        WidokOceny.Visibility = Visibility.Visible;
+                        WidokStudenci.Visibility = Visibility.Collapsed;
+                        break;
+                    default:
+                        WidokStudenci.Visibility = Visibility.Collapsed;
+                        WidokOceny.Visibility = Visibility.Collapsed;
+                        break;
+                }
+            }
+        }
+
+        private void BackToMenu_Click(object sender, RoutedEventArgs e)
+        {
+            WidokStudenci.Visibility = Visibility.Collapsed;
+            WidokOceny.Visibility = Visibility.Collapsed;
+        }
     }
 
 
