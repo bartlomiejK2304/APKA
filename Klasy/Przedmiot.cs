@@ -6,8 +6,35 @@ using Klasy;
 
 namespace Klasy
 {
-    public class Przedmiot
+    public enum Przedmiot
     {
-        public string ?Nazwa { get; set; }
+        JezykPolski,
+        Matematyka,
+        Historia,
+        Geografia,
+        Biologia,
+        Chemia,
+        Fizyka,
+        JezykAngielski,
+        JezykNiemiecki,
+        Informatyka,
+        WychowanieFizyczne
     }
+
+    public enum TypOceny
+    {
+        Sprawdzian,
+        Kartkowka,
+        Odpowiedz,
+        Aktywnosc,
+        Projekt
+    }
+
+    public enum TypUwagi
+    {
+        Pozytywna,
+        Negatywna
+    }
+
+
 }
