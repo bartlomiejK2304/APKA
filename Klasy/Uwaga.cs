@@ -10,5 +10,9 @@ namespace Klasy
         public string Tresc { get; set; }
         public DateTime DataWystawienia { get; set; }
         public string Wystawil { get; set; }
+
+        public TypUwagi typ { get; set; }
+
+
     }
 }

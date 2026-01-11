@@ -6,6 +6,11 @@ using Klasy;
 
 namespace Klasy
 {
+    public class DziennikException : Exception
+    {
+        public DziennikException() { }
+        public DziennikException(string message) : base(message) { }
+    }
     public enum Przedmiot
     {
         JezykPolski,
