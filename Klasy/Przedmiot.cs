@@ -4,12 +4,23 @@ using System.Text;
 using APKA;
 using Klasy;
 
+
+
 namespace Klasy
 {
-    public class DziennikException : Exception
+    public enum TypOceny
     {
-        public DziennikException() { }
-        public DziennikException(string message) : base(message) { }
+        Sprawdzian,
+        Kartkowka,
+        Odpowiedz,
+        Aktywnosc,
+        Projekt
+    }
+
+    public enum TypUwagi
+    {
+        Pozytywna,
+        Negatywna
     }
     public enum Przedmiot
     {
@@ -26,20 +37,14 @@ namespace Klasy
         WychowanieFizyczne
     }
 
-    public enum TypOceny
+    public class DziennikException : Exception
     {
-        Sprawdzian,
-        Kartkowka,
-        Odpowiedz,
-        Aktywnosc,
-        Projekt
+        public DziennikException() { }
+        public DziennikException(string message) : base(message) { }
     }
+    
 
-    public enum TypUwagi
-    {
-        Pozytywna,
-        Negatywna
-    }
+  
 
 
 }

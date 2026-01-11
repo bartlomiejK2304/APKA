@@ -38,6 +38,13 @@ namespace Klasy
                 dataWystawienia = value;
             }
         }
+        public Ocena(int wartosc, Przedmiot przedmiot, TypOceny typ, DateTime dataWystawienia)
+        {
+            Wartosc = wartosc;
+            Przedmiot = przedmiot;
+            Typ = typ;
+            DataWystawienia = DateTime.Now;
+        }
 
     }
 }
