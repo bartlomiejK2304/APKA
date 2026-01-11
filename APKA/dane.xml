@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dzialanosci>
+
+	<Nauczyciele>
+		<Nauczyciel>
+			<Imie>Adam</Imie>
+			<Nazwisko>Nowak</Nazwisko>
+			<Pesel>80010112345</Pesel>
+			<Login>belfer</Login>
+			<Haslo>123</Haslo>
+			<Przedmiot>Matematyka</Przedmiot>
+		</Nauczyciel>
+	</Nauczyciele>
+
+	<Uczniowie>
+		<Uczen>
+			<Imie>Piotr</Imie>
+			<Nazwisko>Kowalski</Nazwisko>
+			<Pesel>05210112345</Pesel>
+			<Login>uczen1</Login>
+			<Haslo>123</Haslo>
+			<Klasa>1A</Klasa>
+		</Uczen>
+
+		<Uczen>
+			<Imie>Anna</Imie>
+			<Nazwisko>Zielińska</Nazwisko>
+			<Pesel>05220212345</Pesel>
+			<Login>uczen2</Login>
+			<Haslo>123</Haslo>
+			<Klasa>1B</Klasa>
+		</Uczen>
+
+		<Uczen>
+			<Imie>Marek</Imie>
+			<Nazwisko>Wiśniewski</Nazwisko>
+			<Pesel>05230312345</Pesel>
+			<Login>uczen3</Login>
+			<Haslo>123</Haslo>
+			<Klasa>2A</Klasa>
+		</Uczen>
+	</Uczniowie>
+
+</Dzialanosci>
+

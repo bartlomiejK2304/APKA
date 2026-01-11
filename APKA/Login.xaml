@@ -15,7 +15,10 @@
 
         <Viewbox Grid.Row="0" Margin="0,40,0,0" Stretch="Uniform">
             <StackPanel Orientation="Horizontal">
-                <Image Source="C:\Users\filip\Desktop\Dzienniczek_Projekt\APKA\LOGO.png" Width="20" Height="20" Margin="0,0,0,10"/>
+                <Image Source="/APKA;component/LOGO.png"
+       Width="60"
+       Height="60"
+       Margin="0,0,0,10"/>
                 <TextBlock Text="DZIENNICZEK"
                            Foreground="#FF1B2897" 
                            FontFamily="Yu Gothic UI Semibold" 

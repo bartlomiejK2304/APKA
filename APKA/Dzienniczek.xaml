@@ -6,42 +6,38 @@
              xmlns:local="clr-namespace:APKA"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
+
+    <Grid Background="#FF07123C">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#FF07123C" BorderBrush="White" BorderThickness="0,0,0,2">
+        <!-- GÓRNY PASEK -->
+        <Border Grid.Row="0" Background="#FF07123C">
+
             <Grid Margin="20,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock Text="Zalogowano jako: " Foreground="Gray" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="UserDisplay" Text="Jan Kowalski" Foreground="#FFFF0C00" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <Button Content="Wyloguj" Margin="15,0,0,0" Padding="10,2" Background="White" Foreground="#FF060606" BorderBrush="#FFFF0C00" Click="Logout_Click"/>
+                    <TextBlock x:Name="UserDisplay" Text="" Foreground="#FFFF0C00" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <Button Content="Wyloguj" Margin="15,0,0,0" Padding="10,2"
+                            Background="White" Foreground="#FF060606"
+                            BorderBrush="#FFFF0C00" Click="Logout_Click"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <Border Grid.Row="1" BorderBrush="White" BorderThickness="0,0,0,2" Background="#FF0E34B4">
-            <Grid Margin="20,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock x:Name="Klasa" Grid.Column="0" Text="Klasa" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="48" FontWeight="Bold"/>
-
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button x:Name="btnPoprzedni" Content="◀" Click="btnPoprzedni_Click" Width="40" Height="40" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
-                    <Border BorderThickness="1" BorderBrush="#FFCDAB1B" Margin="10,0" Width="100" Height="40">
-                        <TextBlock x:Name="txtAktualnyStudent" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="White" Text="Uczeń" FontWeight="Bold"/>
-                    </Border>
-                    <Button x:Name="btnNastepny" Content="▶" Click="btnNastepny_Click" Width="40" Height="40" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
-                </StackPanel>
-            </Grid>
+        <Border x:Name="PanelPowitanie" Grid.Row="1" Background="#FF0E34B4">
+            <TextBlock Text="Witaj w Dzienniczku !!!"
+               Foreground="White"
+               FontSize="36"
+               FontWeight="Bold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
         </Border>
 
+        <!-- GŁÓWNY OBSZAR -->
         <Grid Grid.Row="2">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -50,6 +46,7 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
+            <!-- MENU -->
             <Grid x:Name="PanelMenu" Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -57,48 +54,160 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="btnOcenyMenu" Grid.Column="0" Width="220" Height="220" Margin="15" 
-                        Background="#2ECC71" Foreground="White" BorderThickness="0" Click="MenuButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" Opacity="0.3" ShadowDepth="3"/>
-                    </Button.Effect>
+                <Button x:Name="btnOcenyMenu" Grid.Column="0" Width="220" Height="220" Margin="15"
+                        Background="#2ECC71" Foreground="White" BorderThickness="0"
+                        Click="MenuButton_Click">
                     <StackPanel>
-                        <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets" FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
-                        <TextBlock Text="Oceny" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <TextBlock Text="Oceny" FontSize="20" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Button>
 
-                <Button x:Name="btnUwagiMenu" Grid.Column="1" Width="220" Height="220" Margin="15" 
-                        Background="#FFD7921F" Foreground="White" BorderThickness="0" Click="MenuButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" Opacity="0.3" ShadowDepth="3"/>
-                    </Button.Effect>
+                <Button x:Name="btnUwagiMenu" Grid.Column="1" Width="220" Height="220" Margin="15"
+                        Background="#FFD7921F" Foreground="White" BorderThickness="0"
+                        Click="MenuButton_Click">
                     <StackPanel>
-                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
-                        <TextBlock Text="Uwagi" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <TextBlock Text="Uwagi" FontSize="20" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Button>
 
-                <Button x:Name="btnSprawdzianyMenu" Grid.Column="2" Width="220" Height="220" Margin="15" 
-                        Background="#FF962ECC" Foreground="White" BorderThickness="0" Click="MenuButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" Opacity="0.3" ShadowDepth="3"/>
-                    </Button.Effect>
+                <Button x:Name="btnSprawdzianyMenu" Grid.Column="2" Width="220" Height="220" Margin="15"
+                        Background="#FF962ECC" Foreground="White" BorderThickness="0"
+                        Click="MenuButton_Click">
                     <StackPanel>
-                        <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
-                        <TextBlock Text="Sprawdziany" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <TextBlock Text="Sprawdziany" FontSize="20" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </Grid>
 
+            <!-- WIDOK OCEN -->
             <StackPanel x:Name="WidokOceny" Visibility="Collapsed" VerticalAlignment="Stretch">
-                <Button Content="← Powrót do menu" HorizontalAlignment="Left" Margin="10" Click="BackToMenu_Click" Padding="10,5"/>
-                <TextBlock Text="TABELA OCEN" Foreground="#FF07123C" HorizontalAlignment="Center" FontSize="24" Margin="20" FontWeight="Bold"/>
+                <Button Content="← Powrót do menu" Margin="10"
+                        Click="BackToMenu_Click" Padding="10,5"/>
+                <TextBlock Text="TABELA OCEN" Foreground="#FF07123C"
+                           HorizontalAlignment="Center"
+                           FontSize="24" Margin="20" FontWeight="Bold"/>
             </StackPanel>
 
-            <StackPanel x:Name="WidokStudenci" Visibility="Collapsed" VerticalAlignment="Stretch">
-                <Button Content="← Powrót do menu" HorizontalAlignment="Left" Margin="10" Click="BackToMenu_Click" Padding="10,5"/>
-                <TextBlock Text="LISTA STUDENTÓW / UWAGI" Foreground="#FF07123C" HorizontalAlignment="Center" FontSize="24" Margin="20" FontWeight="Bold"/>
+            <!-- WIDOK UCZNIÓW + UWAGI -->
+            <StackPanel x:Name="WidokStudenci" Visibility="Collapsed" VerticalAlignment="Stretch" Margin="20">
+
+                <Button Content="← Powrót do menu" Margin="10"
+                        Click="BackToMenu_Click" Padding="10,5"/>
+
+                <TextBlock Text="LISTA UCZNIÓW"
+                           Foreground="#FF07123C"
+                           HorizontalAlignment="Center"
+                           FontSize="24"
+                           Margin="20"
+                           FontWeight="Bold"/>
+
+                <!-- WYBÓR KLASY -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <TextBlock Text="Wybierz klasę:" FontWeight="Bold" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="ComboKlasa" Width="120"
+                              SelectionChanged="ComboKlasa_SelectionChanged">
+                        <ComboBoxItem Content="1A"/>
+                        <ComboBoxItem Content="1B"/>
+                        <ComboBoxItem Content="2A"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- LISTA UCZNIÓW -->
+                <ListView x:Name="ListaUczniow" Height="200" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Imię" DisplayMemberBinding="{Binding Imie}" Width="120"/>
+                            <GridViewColumn Header="Nazwisko" DisplayMemberBinding="{Binding Nazwisko}" Width="150"/>
+                            <GridViewColumn Header="Klasa" DisplayMemberBinding="{Binding NazwaKlasy}" Width="80"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <!-- BRAK UCZNIÓW -->
+                <TextBlock x:Name="BrakUczniowText"
+                           Text="Brak uczniów w tej klasie"
+                           Foreground="Red"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Visibility="Collapsed"
+                           Margin="10"/>
+
+                <!-- PANEL DODAWANIA UWAGI -->
+                <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="10">
+                    <StackPanel>
+
+                        <TextBlock Text="Dodaj uwagę dla wybranego ucznia"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,5"/>
+
+                        <TextBox x:Name="TxtUwaga"
+                                 Height="60"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 Margin="0,5"/>
+
+                        <Button Content="Dodaj uwagę"
+                                Width="120"
+                                HorizontalAlignment="Left"
+                                Click="BtnDodajUwage_Click"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+            <StackPanel x:Name="WidokSprawdziany" Visibility="Collapsed" VerticalAlignment="Stretch" Margin="20">
+
+                <Button Content="← Powrót do menu"
+            Margin="10"
+            Click="BackToMenu_Click"
+            Padding="10,5"/>
+
+                <TextBlock Text="SPRAWDZIANY – WYBÓR KLASY"
+               Foreground="#FF07123C"
+               HorizontalAlignment="Center"
+               FontSize="24"
+               Margin="20"
+               FontWeight="Bold"/>
+
+                <!-- WYBÓR KLASY -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <TextBlock Text="Wybierz klasę:"
+                   FontWeight="Bold"
+                   Margin="0,0,10,0"/>
+
+                    <ComboBox x:Name="ComboKlasaSprawdziany" Width="120">
+                        <ComboBoxItem Content="1A"/>
+                        <ComboBoxItem Content="1B"/>
+                        <ComboBoxItem Content="2A"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- WYBÓR DATY -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <TextBlock Text="Data sprawdzianu:"
+                   FontWeight="Bold"
+                   Margin="0,0,10,0"/>
+
+                    <DatePicker x:Name="DateSprawdzian" Width="150"/>
+                </StackPanel>
+
+                <!-- PRZYCISK -->
+                <Button Content="Dodaj sprawdzian"
+            Width="180"
+            Height="40"
+            Margin="20"
+            HorizontalAlignment="Center"
+            Click="BtnDodajSprawdzian_Click"/>
+
             </StackPanel>
 
         </Grid>

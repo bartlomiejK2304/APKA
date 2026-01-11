@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Klasy;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,13 +20,14 @@ namespace APKA
         public MainWindow()
         {
             InitializeComponent();
+            DataManager.Wczytaj();
             MainContent.Content = new Login();
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = (MainWindow)Window.GetWindow(this);
-            mainWindow.MainContent.Content = new Dzienniczek();
+           
         }
     }
 }

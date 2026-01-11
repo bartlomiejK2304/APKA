@@ -12,16 +12,7 @@ namespace APKA
         public string ?Imie { get; set; }
         public string ?Nazwisko { get; set; }
 
-        private string _pesel = string.Empty;
-
-        protected Osoba(string imie, string nazwisko, string pesel)
-        {
-            Imie = imie;
-            Nazwisko = nazwisko;
-            Pesel = pesel;
-            Pesel = pesel;
-        }
-
+        private string _pesel;
         public string Pesel
         {
             get { return _pesel; }
@@ -37,6 +28,19 @@ namespace APKA
                 }
             }
         }
+        public string Login { get; set; }
+        public string Haslo { get; set; }
+
+        protected Osoba(string imie, string nazwisko, string pesel, string login, string haslo)
+        {
+            Imie = imie;
+            Nazwisko = nazwisko;
+            Pesel = pesel;
+            Login = login;
+            Haslo = haslo;
+        }
+
+      
 
         
     }
