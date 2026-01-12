@@ -131,7 +131,7 @@ namespace APKA
             if (DateSprawdzian.SelectedDate == null )
 
                 /* 
-                 
+                 TBD
                  DateSprawdzia*/
             {
                 MessageBox.Show("Wybierz datę sprawdzianu.");
