@@ -112,8 +112,13 @@ namespace APKA
                 MessageBox.Show("Wpisz treść uwagi.");
                 return;
             }
-
-            // Na razie NIE zapisujemy nigdzie – tylko komunikat
+            Uczen wybranyUczen = (Uczen)ListaUczniow.SelectedItem;
+            wybranyUczen.DodajUwage(new Uwaga
+            {
+                Tresc = TxtUwaga.Text,
+                DataWystawienia = DateTime.Today,
+                Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko
+            });
             MessageBox.Show("Dodano uwagę!");
 
             TxtUwaga.Text = "";

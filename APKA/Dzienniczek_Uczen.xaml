@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="APKA.Dzienniczek_Uczen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:APKA"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#FF07123C">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- GÓRNY PASEK -->
+        <Border Grid.Row="0" Background="#FF07123C">
+
+            <Grid Margin="20,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="Zalogowano jako: " Foreground="Gray" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="UserDisplay" Text="" Foreground="#FFFF0C00" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    <Button Content="Wyloguj" Margin="15,0,0,0" Padding="10,2"
+                            Background="White" Foreground="#FF060606"
+                            BorderBrush="#FFFF0C00" Click="Logout_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border x:Name="PanelPowitanie" Grid.Row="1" Background="#FF0E34B4">
+            <TextBlock Text="Witaj w Dzienniczku !!!"
+               Foreground="White"
+               FontSize="36"
+               FontWeight="Bold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- GŁÓWNY OBSZAR -->
+        <Grid Grid.Row="2">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFC3C1C1"/>
+                    <GradientStop Color="White" Offset="0.077"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <!-- MENU -->
+            <Grid x:Name="PanelMenu" Visibility="Visible">  
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnOcenyMenu" Grid.Column="0" Width="220" Height="220" Margin="15"
+                        Background="#2ECC71" Foreground="White" BorderThickness="0"
+                        Click="MenuButton_Click">
+                    <StackPanel>
+                        <TextBlock Text="&#xE82D;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <TextBlock Text="Oceny" FontSize="20" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="btnUwagiMenu" Grid.Column="1" Width="220" Height="220" Margin="15"
+                        Background="#FFD7921F" Foreground="White" BorderThickness="0"
+                        Click="MenuButton_Click">
+                    <StackPanel>
+                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <TextBlock Text="Uwagi" FontSize="20" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="btnSprawdzianyMenu" Grid.Column="2" Width="220" Height="220" Margin="15"
+                        Background="#FF962ECC" Foreground="White" BorderThickness="0"
+                        Click="MenuButton_Click">
+                    <StackPanel>
+                        <TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets"
+                                   FontSize="50" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                        <TextBlock Text="Sprawdziany" FontSize="20" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- WIDOK OCEN -->
+            <StackPanel x:Name="WidokOceny" Visibility="Collapsed" VerticalAlignment="Stretch">
+                <Button Content="← Powrót do menu" Margin="10"
+                        Click="BackToMenu_Click" Padding="10,5"/>
+                <DataGrid x:Name="GridOceny" 
+              AutoGenerateColumns="False" 
+              IsReadOnly="True" 
+              Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Przedmiot" Binding="{Binding Przedmiot}" Width="*"/>
+                        <DataGridTextColumn Header="Ocena" Binding="{Binding Wartosc}" Width="50"/>
+                        <DataGridTextColumn Header="Data" Binding="{Binding Data}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </StackPanel>
+
+            <!-- WIDOK UWAGI -->
+
+
+            <StackPanel x:Name="WidokUwag" Visibility="Collapsed" VerticalAlignment="Stretch">
+                <Button Content="← Powrót do menu" Margin="10"
+                    Click="BackToMenu_Click" Padding="10,5"/>
+                <DataGrid x:Name="GridUwagi" 
+                    AutoGenerateColumns="False" 
+                    IsReadOnly="True" 
+                    Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Wystawił" Binding="{Binding Wystawil}" Width="100"/>
+                        <DataGridTextColumn Header="Data" Binding="{Binding DataWystawienia, StringFormat=\{0:dd.MM.yyyy\}}" Width="100"/>
+                        <DataGridTextColumn Header="Treść" Binding="{Binding Tresc}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </StackPanel>
+
+
+
+
+
+            <!-- WYBÓR KLASY -->
+                
+
+                <!-- LISTA UCZNIÓW -->
+                
+
+                <!-- BRAK UCZNIÓW -->
+                
+
+                <!-- PANEL DODAWANIA UWAGI -->
+                
+
+                
+
+                
+
+
+            
+
+        </Grid>
+    </Grid>
+</UserControl>
