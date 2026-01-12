@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Klasy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,23 @@ namespace APKA
         }
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
+            string login = LoginBox.Text;
+            string haslo = PasswordBox.Password;
+
+            // Sprawdź w XML
+            Osoba osoba = DataManager.Zaloguj(login, haslo);
+
+            if (osoba == null)
+            {
+                MessageBox.Show("Niepoprawny login lub hasło!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                LoginBox.Text = "";
+                PasswordBox.Password = "";
+                return;
+            }
+
+            // Jeśli poprawne – przechodzimy dalej
             var mainWindow = (MainWindow)Window.GetWindow(this);
-            mainWindow.MainContent.Content = new Dzienniczek();
+            mainWindow.MainContent.Content = new Dzienniczek(osoba);
         }
     }
 }

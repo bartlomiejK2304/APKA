@@ -9,7 +9,23 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="LOGO.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Klasy\Klasy.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="LOGO.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="dane.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
