@@ -146,8 +146,8 @@ namespace APKA
             if (DateSprawdzian.SelectedDate <DateTime.Now)
             {
                 MessageBox.Show("Zła data","Błąd",MessageBoxButton.OK, MessageBoxImage.Error);
-                
-               
+
+                return;
             }
 
                 string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
