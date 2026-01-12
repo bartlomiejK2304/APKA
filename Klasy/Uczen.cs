@@ -11,11 +11,12 @@ namespace APKA
     {
         public List<Uwaga> Uwagi = new List<Uwaga>();
         public List<Ocena> Oceny = new List<Ocena>();
+        public string NazwaKlasy { get; set; }
 
-        public Uczen(string imie, string nazwisko, string pesel) : base(imie, nazwisko, pesel)
+        public Uczen(string imie, string nazwisko, string pesel, string login, string haslo, string nazwaKlasy)
+           : base(imie, nazwisko, pesel, login, haslo)
         {
-            Uwagi = new List<Uwaga>();
-            Oceny = new List<Ocena>();
+            NazwaKlasy = nazwaKlasy;
         }
 
         public void DodajUwage(Uwaga uwaga)

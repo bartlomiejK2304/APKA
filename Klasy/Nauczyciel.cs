@@ -10,17 +10,13 @@ namespace APKA
 {
     public class Nauczyciel : Osoba
     {
-        private Przedmiot przedmiot;
+        public Przedmiot Przedmiot { get; set; }
 
-        public Przedmiot Przedmiot
-        {
-            get => przedmiot;
-            set => przedmiot = value;
-        }
-        public Nauczyciel(string imie, string nazwisko, string pesel, Przedmiot przedmiot) : base(imie, nazwisko, pesel)
+        public Nauczyciel(string imie, string nazwisko, string pesel,
+                          string login, string haslo, Przedmiot przedmiot)
+            : base(imie, nazwisko, pesel, login, haslo)
         {
             Przedmiot = przedmiot;
         }
-
     }
 }

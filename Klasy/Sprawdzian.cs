@@ -14,7 +14,8 @@ namespace Klasy
         private string ?klasa;
 
         public Przedmiot Przedmiot { get => przedmiot; set => przedmiot = value; }
-        public DateTime Data { get => data; set => data = value; }
+        public DateTime Data 
+        { get => data; set => data = value; }
 
         public string Temat { get => temat; set => temat = value; }
 

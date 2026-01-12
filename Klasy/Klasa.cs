@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Klasy
 {
-    internal class Klasa
+    public class Klasa
     {
         public List<Sprawdzian>Sprawdziany = new List<Sprawdzian>();
         public List<Przedmiot> Przedmioty = new List<Przedmiot>();
