@@ -150,10 +150,22 @@ namespace APKA
                 return;
             }
 
+
+
                 string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
             DateTime data = DateSprawdzian.SelectedDate.Value;
 
-            MessageBox.Show($"Dodano sprawdzian dla klasy {klasa} na dzień {data.ToShortDateString()}!");
+            if (zalogowany is Nauczyciel nauczyciel)
+            {
+                Sprawdzian nowySprawdzian = new Sprawdzian(nauczyciel.Przedmiot, "Sprawdzian", data, klasa);
+                DataManager.DodajSprawdzian(nowySprawdzian);
+                MessageBox.Show($"Dodano sprawdzian z {nauczyciel.Przedmiot} dla klasy {klasa} na dzień {data.ToShortDateString()}!");
+            }
+            else
+            {
+                MessageBox.Show("Tylko nauczyciel może dodawać sprawdziany.");
+            }
+
 
             // Czyścimy wybór
             ComboKlasaSprawdziany.SelectedItem = null;

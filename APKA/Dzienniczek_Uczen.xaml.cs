@@ -1,36 +1,186 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Klasy;
 
 namespace APKA
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Dzienniczek_Uczen.xaml
-    /// </summary>
     public partial class Dzienniczek_Uczen : UserControl
     {
         private Uczen zalogowany;
+        private List<Sprawdzian> wszystkieSprawdziany;
+        private Przedmiot? aktualnyPrzedmiot = null;
+
         public Dzienniczek_Uczen(Uczen osoba)
         {
             InitializeComponent();
-            
+
             zalogowany = osoba;
-            UserDisplay.Text = $"{osoba.Imie} {osoba.Nazwisko}";
-            GridOceny.ItemsSource = zalogowany.Oceny;
-            GridUwagi.ItemsSource = zalogowany.Uwagi;
+            InicjalizujDane();
+            ZaladujDane();
+            ObliczStatystyki();
         }
 
+        private void InicjalizujDane()
+        {
+            UserDisplay.Text = $"{zalogowany.Imie} {zalogowany.Nazwisko}";
+            txtKlasa.Text = zalogowany.NazwaKlasy;
+
+            cmbFiltrujPrzedmiot.Items.Clear();
+            cmbFiltrujPrzedmiot.Items.Add("Wszystkie przedmioty");
+            foreach (Przedmiot przedmiot in Enum.GetValues(typeof(Przedmiot)))
+            {
+                cmbFiltrujPrzedmiot.Items.Add(przedmiot.ToString());
+            }
+            cmbFiltrujPrzedmiot.SelectedIndex = 0;
+        }
+
+        private void ZaladujDane()
+        {
+            // Wyświetlanie ocen i uwag
+            GridOceny.ItemsSource = zalogowany.Oceny;
+            GridUwagi.ItemsSource = zalogowany.Uwagi;
+
+            // Aktualizuj info na przyciskach
+            txtOcenyInfo.Text = $"{zalogowany.Oceny.Count} ocen";
+            txtUwagiInfo.Text = $"{zalogowany.Uwagi.Count} uwag";
+
+            ZaladujSprawdziany();
+            txtSprawdzianyInfo.Text = $"{PoliczNadchodzaceSprawdziany()} nadchodzi";
+
+            DodajPrzyciskiPrzedmiotow();
+        }
+
+        private void ZaladujSprawdziany()
+        {
+            // Pobieramy sprawdziany z DataManager
+            var mojeSprawdziany = DataManager.PobierzSprawdzianyDlaKlasy(zalogowany.NazwaKlasy)
+                .Where(s => s.Data >= DateTime.Today)
+                .OrderBy(s => s.Data)
+                .ToList();
+
+            GridSprawdziany.ItemsSource = mojeSprawdziany;
+
+
+        }
+
+        private void DodajPrzyciskiPrzedmiotow()
+        {
+            PanelPrzyciskowPrzedmiotow.Children.Clear();
+
+            // Przycisk "Wszystkie"
+            var btnWszystkie = new Button
+            {
+                Content = "Wszystkie",
+                Margin = new Thickness(5),
+                Padding = new Thickness(15, 8, 15, 8),
+                Background = new SolidColorBrush(Colors.DarkGray),
+                Foreground = new SolidColorBrush(Colors.White),
+                Tag = null
+            };
+            btnWszystkie.Click += PrzyciskPrzedmiotu_Click;
+            PanelPrzyciskowPrzedmiotow.Children.Add(btnWszystkie);
+
+            // Przyciski dla każdego przedmiotu
+            foreach (Przedmiot przedmiot in Enum.GetValues(typeof(Przedmiot)))
+            {
+                var btn = new Button
+                {
+                    Content = przedmiot.ToString(),
+                    Margin = new Thickness(5),
+                    Padding = new Thickness(15, 8, 15, 8),
+                    Background = new SolidColorBrush(Color.FromRgb(33, 150, 243)),
+                    Foreground = new SolidColorBrush(Colors.White),
+                    Tag = przedmiot
+                };
+                btn.Click += PrzyciskPrzedmiotu_Click;
+                PanelPrzyciskowPrzedmiotow.Children.Add(btn);
+            }
+        }
+
+        private void PrzyciskPrzedmiotu_Click(object sender, RoutedEventArgs e)
+        {
+            var przycisk = (Button)sender;
+            aktualnyPrzedmiot = (Przedmiot?)przycisk.Tag;
+
+            foreach (Button btn in PanelPrzyciskowPrzedmiotow.Children.OfType<Button>())
+            {
+                Przedmiot? btnPrzedmiot = btn.Tag as Przedmiot?;
+                btn.Background = (btnPrzedmiot.HasValue && aktualnyPrzedmiot.HasValue && btnPrzedmiot.Value == aktualnyPrzedmiot.Value)
+                    ? new SolidColorBrush(Color.FromRgb(46, 204, 113))
+                    : (btn.Tag == null && !aktualnyPrzedmiot.HasValue)
+                        ? new SolidColorBrush(Colors.DarkGray)
+                        : new SolidColorBrush(Color.FromRgb(33, 150, 243));
+            }
+
+            // Zaktualizuj tekst
+            txtWybranyPrzedmiot.Text = aktualnyPrzedmiot.HasValue
+                ? $"Wybrany przedmiot: {aktualnyPrzedmiot.Value}"
+                : "Wybrany przedmiot: Wszystkie";
+
+            FiltrujOceny();
+        }
+
+        private void ObliczStatystyki()
+        {
+            if (zalogowany.Oceny.Count == 0)
+            {
+                txtSrednia.Text = "0.00";
+                txtLiczbaOcen.Text = "0";
+                txtPrognoza.Text = "-";
+                return;
+            }
+
+            // Oblicz średnią
+            double srednia = zalogowany.Oceny.Average(o => o.Wartosc);
+            txtSrednia.Text = srednia.ToString("F2");
+            txtLiczbaOcen.Text = zalogowany.Oceny.Count.ToString();
+
+            // Prognoza oceny końcowej
+            txtPrognoza.Text = srednia >= 4.75 ? "5" :
+                              srednia >= 3.75 ? "4" :
+                              srednia >= 2.75 ? "3" :
+                              srednia >= 1.75 ? "2" : "1";
+        }
+
+        private int PoliczNadchodzaceSprawdziany()
+        {
+            var sprawdziany = GridSprawdziany.ItemsSource as List<Sprawdzian>;
+            return sprawdziany?.Count ?? 0;
+        }
+
+        private void FiltrujOceny()
+        {
+            if (aktualnyPrzedmiot.HasValue)
+            {
+                var filtrowaneOceny = zalogowany.Oceny
+                    .Where(o => o.Przedmiot == aktualnyPrzedmiot.Value)
+                    .ToList();
+                GridOceny.ItemsSource = filtrowaneOceny;
+
+                // Pokaż podsumowanie przedmiotu
+                if (filtrowaneOceny.Count > 0)
+                {
+                    double sredniaPrzedmiot = filtrowaneOceny.Average(o => o.Wartosc);
+                    txtPodsumowaniePrzedmiot.Text = $"{aktualnyPrzedmiot.Value}: {filtrowaneOceny.Count} ocen, Średnia: {sredniaPrzedmiot:F2}";
+                    PanelPodsumowanie.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    PanelPodsumowanie.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                GridOceny.ItemsSource = zalogowany.Oceny;
+                PanelPodsumowanie.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        // --- OBSŁUGA ZDARZEŃ ---
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = (MainWindow)Window.GetWindow(this);
@@ -45,24 +195,79 @@ namespace APKA
             if (sender is Button btn)
             {
                 PanelMenu.Visibility = Visibility.Collapsed;
+                WidokOceny.Visibility = Visibility.Collapsed;
+                WidokUwag.Visibility = Visibility.Collapsed;
+                WidokSprawdzianow.Visibility = Visibility.Collapsed;
+                WidokFiltrow.Visibility = Visibility.Collapsed;
+
                 if (btn.Name == "btnOcenyMenu")
-                {
                     WidokOceny.Visibility = Visibility.Visible;
-                    WidokUwag.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
+                else if (btn.Name == "btnUwagiMenu")
                     WidokUwag.Visibility = Visibility.Visible;
-                    WidokOceny.Visibility = Visibility.Collapsed;
-                }
+                else if (btn.Name == "btnSprawdzianyMenu")
+                    WidokSprawdzianow.Visibility = Visibility.Visible;
             }
+        }
+
+        private void Filtry_Click(object sender, RoutedEventArgs e)
+        {
+            PanelMenu.Visibility = Visibility.Collapsed;
+            WidokOceny.Visibility = Visibility.Collapsed;
+            WidokUwag.Visibility = Visibility.Collapsed;
+            WidokSprawdzianow.Visibility = Visibility.Collapsed;
+            WidokFiltrow.Visibility = Visibility.Visible;
         }
 
         private void BackToMenu_Click(object sender, RoutedEventArgs e)
         {
             WidokUwag.Visibility = Visibility.Collapsed;
             WidokOceny.Visibility = Visibility.Collapsed;
+            WidokSprawdzianow.Visibility = Visibility.Collapsed;
+            WidokFiltrow.Visibility = Visibility.Collapsed;
             PanelMenu.Visibility = Visibility.Visible;
+
+            aktualnyPrzedmiot = null;
+            GridOceny.ItemsSource = zalogowany.Oceny;
+            PanelPodsumowanie.Visibility = Visibility.Collapsed;
+        }
+
+        private void Statystyki_Click(object sender, RoutedEventArgs e)
+        {
+            ObliczStatystyki();
+            MessageBox.Show(
+                $"Statystyki ucznia:\n\n" +
+                $"Średnia ocen: {txtSrednia.Text}\n" +
+                $"Liczba ocen: {zalogowany.Oceny.Count}\n" +
+                $"Liczba uwag: {zalogowany.Uwagi.Count}\n" +
+                $"Nadchodzące sprawdziany: {PoliczNadchodzaceSprawdziany()}\n" +
+                $"Prognozowana ocena końcowa: {txtPrognoza.Text}",
+                "Statystyki", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ObliczSrednia_Click(object sender, RoutedEventArgs e)
+        {
+            ObliczStatystyki();
+            MessageBox.Show($"Średnia ocen: {txtSrednia.Text}", "Średnia ocen",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void FiltrujOceny_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbFiltrujPrzedmiot.SelectedIndex == 0)
+            {
+                aktualnyPrzedmiot = null;
+                GridOceny.ItemsSource = zalogowany.Oceny;
+                PanelPodsumowanie.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                var wybrany = cmbFiltrujPrzedmiot.SelectedItem.ToString();
+                if (Enum.TryParse<Przedmiot>(wybrany, out Przedmiot przedmiot))
+                {
+                    aktualnyPrzedmiot = przedmiot;
+                    FiltrujOceny();
+                }
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Klasy
     {
         public static List<Uczen> Uczniowie = new();
         public static List<Nauczyciel> Nauczyciele = new();
+        public static List<Sprawdzian> Sprawdziany = new();
 
         private static string Sciezka = "dane.xml";
 
@@ -60,5 +61,16 @@ namespace Klasy
         {
             return Uczniowie.Where(u => u.NazwaKlasy == klasa).ToList();
         }
+
+        public static void DodajSprawdzian(Sprawdzian sprawdzian)
+        {
+            Sprawdziany.Add(sprawdzian);
+        }
+
+        public static List<Sprawdzian> PobierzSprawdzianyDlaKlasy(string klasa)
+        {
+            return Sprawdziany.Where(s => s.Klasa == klasa).ToList();
+        }
     }
 }
+
