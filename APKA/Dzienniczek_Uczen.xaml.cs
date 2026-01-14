@@ -14,6 +14,7 @@ namespace APKA
         private List<Sprawdzian> wszystkieSprawdziany;
         private Przedmiot? aktualnyPrzedmiot = null;
 
+        private List<Ocena> wszystkieOcenyUcznia = new List<Ocena>();
         public Dzienniczek_Uczen(Uczen osoba)
         {
             InitializeComponent();
@@ -29,8 +30,16 @@ namespace APKA
             UserDisplay.Text = $"{zalogowany.Imie} {zalogowany.Nazwisko}";
             txtKlasa.Text = zalogowany.NazwaKlasy;
 
+            wszystkieOcenyUcznia = zalogowany.Oceny.ToList();
+
             cmbFiltrujPrzedmiot.Items.Clear();
             cmbFiltrujPrzedmiot.Items.Add("Wszystkie przedmioty");
+
+            var przedmiotyUcznia = zalogowany.Oceny
+                .Select(o => o.Przedmiot)
+                .Distinct()
+                .OrderBy(p => p.ToString());
+
             foreach (Przedmiot przedmiot in Enum.GetValues(typeof(Przedmiot)))
             {
                 cmbFiltrujPrzedmiot.Items.Add(przedmiot.ToString());
@@ -41,22 +50,22 @@ namespace APKA
         private void ZaladujDane()
         {
             // Wyświetlanie ocen i uwag
-            GridOceny.ItemsSource = zalogowany.Oceny;
+            GridOceny.ItemsSource = wszystkieOcenyUcznia;
             GridUwagi.ItemsSource = zalogowany.Uwagi;
 
-            // Aktualizuj info na przyciskach
-            txtOcenyInfo.Text = $"{zalogowany.Oceny.Count} ocen";
+            txtOcenyInfo.Text = $"{wszystkieOcenyUcznia.Count} ocen";
             txtUwagiInfo.Text = $"{zalogowany.Uwagi.Count} uwag";
 
             ZaladujSprawdziany();
             txtSprawdzianyInfo.Text = $"{PoliczNadchodzaceSprawdziany()} nadchodzi";
 
             DodajPrzyciskiPrzedmiotow();
+
+            ObliczStatystyki();
         }
 
         private void ZaladujSprawdziany()
         {
-            // Pobieramy sprawdziany z DataManager
             var mojeSprawdziany = DataManager.PobierzSprawdzianyDlaKlasy(zalogowany.NazwaKlasy)
                 .Where(s => s.Data >= DateTime.Today)
                 .OrderBy(s => s.Data)
@@ -130,7 +139,7 @@ namespace APKA
             {
                 txtSrednia.Text = "0.00";
                 txtLiczbaOcen.Text = "0";
-                txtPrognoza.Text = "-";
+ 
                 return;
             }
 
@@ -139,11 +148,6 @@ namespace APKA
             txtSrednia.Text = srednia.ToString("F2");
             txtLiczbaOcen.Text = zalogowany.Oceny.Count.ToString();
 
-            // Prognoza oceny końcowej
-            txtPrognoza.Text = srednia >= 4.75 ? "5" :
-                              srednia >= 3.75 ? "4" :
-                              srednia >= 2.75 ? "3" :
-                              srednia >= 1.75 ? "2" : "1";
         }
 
         private int PoliczNadchodzaceSprawdziany()
@@ -239,8 +243,7 @@ namespace APKA
                 $"Średnia ocen: {txtSrednia.Text}\n" +
                 $"Liczba ocen: {zalogowany.Oceny.Count}\n" +
                 $"Liczba uwag: {zalogowany.Uwagi.Count}\n" +
-                $"Nadchodzące sprawdziany: {PoliczNadchodzaceSprawdziany()}\n" +
-                $"Prognozowana ocena końcowa: {txtPrognoza.Text}",
+                $"Nadchodzące sprawdziany: {PoliczNadchodzaceSprawdziany()}\n",
                 "Statystyki", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
