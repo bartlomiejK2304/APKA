@@ -34,7 +34,7 @@
                     <Button x:Name="btnStatystyki" Content="Statystyki" Margin="5,0" Padding="10,5"
                             Background="#2ECC71" Foreground="White" Click="Statystyki_Click"
                             ToolTip="Pokaż statystyki ocen"/>
-                    <Button Content="🚪 Wyloguj" Margin="5,0" Padding="10,5"
+                    <Button Content="Wyloguj" Margin="5,0" Padding="10,5"
                             Background="#FFFF0C00" Foreground="White"
                             Click="Logout_Click"/>
                 </StackPanel>
