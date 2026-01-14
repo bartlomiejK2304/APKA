@@ -95,6 +95,69 @@
                 <TextBlock Text="TABELA OCEN" Foreground="#FF07123C"
                            HorizontalAlignment="Center"
                            FontSize="24" Margin="20" FontWeight="Bold"/>
+                <!-- WYBÓR KLASY -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <TextBlock Text="Wybierz klasę:" FontWeight="Bold" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="ComboKlasaOceny" Width="120"
+                  SelectionChanged="ComboKlasaOceny_SelectionChanged">
+                        <ComboBoxItem Content="1A"/>
+                        <ComboBoxItem Content="1B"/>
+                        <ComboBoxItem Content="2A"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- LISTA UCZNIÓW -->
+                <ListView x:Name="ListaUczniowOceny" Height="200" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Imię" DisplayMemberBinding="{Binding Imie}" Width="120"/>
+                            <GridViewColumn Header="Nazwisko" DisplayMemberBinding="{Binding Nazwisko}" Width="150"/>
+                            <GridViewColumn Header="Klasa" DisplayMemberBinding="{Binding NazwaKlasy}" Width="80"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <!-- FORMULARZ DODAWANIA OCENY -->
+                <Border BorderBrush="#2ECC71" BorderThickness="1" Padding="10" Margin="10">
+                    <StackPanel>
+                        <TextBlock Text="Dodaj ocenę dla wybranego ucznia"
+                       FontWeight="Bold" Foreground="#2ECC71"
+                       Margin="0,0,0,10"/>
+
+                        <!-- OCENA -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="Ocena (1-6):" Width="100" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="ComboOcena" Width="60">
+                                <ComboBoxItem Content="1"/>
+                                <ComboBoxItem Content="2"/>
+                                <ComboBoxItem Content="3"/>
+                                <ComboBoxItem Content="4"/>
+                                <ComboBoxItem Content="5"/>
+                                <ComboBoxItem Content="6"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- TYP OCENY -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                            <TextBlock Text="Typ oceny:" Width="100" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="ComboTypOceny" Width="120">
+                                <ComboBoxItem Content="Sprawdzian"/>
+                                <ComboBoxItem Content="Kartkowka"/>
+                                <ComboBoxItem Content="Odpowiedz"/>
+                                <ComboBoxItem Content="Aktywnosc"/>
+                                <ComboBoxItem Content="Projekt"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- PRZYCISK -->
+                        <Button Content="Dodaj ocenę"
+                    Width="120"
+                    HorizontalAlignment="Left"
+                    Background="#2ECC71" Foreground="White"
+                    Click="BtnDodajOcene_Click"/>
+                    </StackPanel>
+                </Border>
+
             </StackPanel>
 
             <!-- WIDOK UCZNIÓW + UWAGI -->
@@ -160,9 +223,12 @@
                                 HorizontalAlignment="Left"
                                 Click="BtnDodajUwage_Click"/>
                     </StackPanel>
+                    
                 </Border>
 
             </StackPanel>
+
+            
 
             <StackPanel x:Name="WidokSprawdziany" Visibility="Collapsed" VerticalAlignment="Stretch" Margin="20">
 

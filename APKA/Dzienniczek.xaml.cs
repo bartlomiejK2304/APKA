@@ -18,6 +18,8 @@ namespace APKA
             zalogowany = osoba;
 
             UserDisplay.Text = $"{osoba.Imie} {osoba.Nazwisko}";
+
+
         }
 
         private void Subject_Click(object sender, MouseButtonEventArgs e)
@@ -91,11 +93,13 @@ namespace APKA
             {
                 ListaUczniow.ItemsSource = null;
                 BrakUczniowText.Visibility = Visibility.Visible;
+
             }
             else
             {
                 BrakUczniowText.Visibility = Visibility.Collapsed;
                 ListaUczniow.ItemsSource = uczniowie;
+
             }
         }
 
@@ -131,28 +135,28 @@ namespace APKA
                 return;
             }
 
-            
 
-            if (DateSprawdzian.SelectedDate == null )
 
-                /* 
-                 
-                 DateSprawdzia*/
+            if (DateSprawdzian.SelectedDate == null)
+
+            /* 
+
+             DateSprawdzia*/
             {
                 MessageBox.Show("Wybierz datę sprawdzianu.");
                 return;
             }
 
-            if (DateSprawdzian.SelectedDate <DateTime.Now)
+            if (DateSprawdzian.SelectedDate < DateTime.Now)
             {
-                MessageBox.Show("Zła data","Błąd",MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Zła data", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return;
             }
 
 
 
-                string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
+            string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
             DateTime data = DateSprawdzian.SelectedDate.Value;
 
             if (zalogowany is Nauczyciel nauczyciel)
@@ -170,6 +174,74 @@ namespace APKA
             // Czyścimy wybór
             ComboKlasaSprawdziany.SelectedItem = null;
             DateSprawdzian.SelectedDate = null;
+        }
+
+
+        private void ComboKlasaOceny_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboKlasaOceny.SelectedItem == null)
+                return;
+
+            string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
+
+            var uczniowie = DataManager.PobierzKlase(klasa);
+
+            ListaUczniowOceny.ItemsSource = uczniowie;
+        }
+
+
+        private void BtnDodajOcene_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListaUczniowOceny.SelectedItem == null)
+            {
+                MessageBox.Show("Najpierw wybierz ucznia z listy.");
+                return;
+            }
+
+            if (ComboOcena.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz ocenę.");
+                return;
+            }
+
+            if (ComboTypOceny.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz typ oceny.");
+                return;
+            }
+
+            if (!(zalogowany is Nauczyciel nauczyciel))
+            {
+                MessageBox.Show("Tylko nauczyciel może dodawać oceny.");
+                return;
+            }
+
+            Uczen wybranyUczen = (Uczen)ListaUczniowOceny.SelectedItem;
+
+            try
+            {
+                int wartosc = int.Parse(((ComboBoxItem)ComboOcena.SelectedItem).Content.ToString());
+                string typText = ((ComboBoxItem)ComboTypOceny.SelectedItem).Content.ToString();
+                TypOceny typ = (TypOceny)Enum.Parse(typeof(TypOceny), typText);
+
+                Ocena nowaOcena = new Ocena(wartosc, nauczyciel.Przedmiot, typ, DateTime.Now);
+
+                wybranyUczen.Oceny.Add(nowaOcena);
+
+                MessageBox.Show($"Dodano ocenę {wartosc} z {nauczyciel.Przedmiot} ({typ})" +
+                              $"\nUczeń: {wybranyUczen.Imie} {wybranyUczen.Nazwisko}");
+
+
+            }
+            catch (DziennikException ex)
+            {
+                MessageBox.Show($"Błąd: {ex.Message}", "Błąd oceny",
+                               MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Wystąpił błąd: {ex.Message}");
+            }
         }
 
 
