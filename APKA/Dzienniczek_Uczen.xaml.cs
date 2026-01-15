@@ -59,7 +59,6 @@ namespace APKA
             ZaladujSprawdziany();
             txtSprawdzianyInfo.Text = $"{PoliczNadchodzaceSprawdziany()} nadchodzi";
 
-            DodajPrzyciskiPrzedmiotow();
 
             ObliczStatystyki();
         }
@@ -76,62 +75,8 @@ namespace APKA
 
         }
 
-        private void DodajPrzyciskiPrzedmiotow()
-        {
-            PanelPrzyciskowPrzedmiotow.Children.Clear();
-
-            // Przycisk "Wszystkie"
-            var btnWszystkie = new Button
-            {
-                Content = "Wszystkie",
-                Margin = new Thickness(5),
-                Padding = new Thickness(15, 8, 15, 8),
-                Background = new SolidColorBrush(Colors.DarkGray),
-                Foreground = new SolidColorBrush(Colors.White),
-                Tag = null
-            };
-            btnWszystkie.Click += PrzyciskPrzedmiotu_Click;
-            PanelPrzyciskowPrzedmiotow.Children.Add(btnWszystkie);
-
-            // Przyciski dla każdego przedmiotu
-            foreach (Przedmiot przedmiot in Enum.GetValues(typeof(Przedmiot)))
-            {
-                var btn = new Button
-                {
-                    Content = przedmiot.ToString(),
-                    Margin = new Thickness(5),
-                    Padding = new Thickness(15, 8, 15, 8),
-                    Background = new SolidColorBrush(Color.FromRgb(33, 150, 243)),
-                    Foreground = new SolidColorBrush(Colors.White),
-                    Tag = przedmiot
-                };
-                btn.Click += PrzyciskPrzedmiotu_Click;
-                PanelPrzyciskowPrzedmiotow.Children.Add(btn);
-            }
-        }
-
-        private void PrzyciskPrzedmiotu_Click(object sender, RoutedEventArgs e)
-        {
-            var przycisk = (Button)sender;
-            aktualnyPrzedmiot = (Przedmiot?)przycisk.Tag;
-
-            foreach (Button btn in PanelPrzyciskowPrzedmiotow.Children.OfType<Button>())
-            {
-                Przedmiot? btnPrzedmiot = btn.Tag as Przedmiot?;
-                btn.Background = (btnPrzedmiot.HasValue && aktualnyPrzedmiot.HasValue && btnPrzedmiot.Value == aktualnyPrzedmiot.Value)
-                    ? new SolidColorBrush(Color.FromRgb(46, 204, 113))
-                    : (btn.Tag == null && !aktualnyPrzedmiot.HasValue)
-                        ? new SolidColorBrush(Colors.DarkGray)
-                        : new SolidColorBrush(Color.FromRgb(33, 150, 243));
-            }
-
-            // Zaktualizuj tekst
-            txtWybranyPrzedmiot.Text = aktualnyPrzedmiot.HasValue
-                ? $"Wybrany przedmiot: {aktualnyPrzedmiot.Value}"
-                : "Wybrany przedmiot: Wszystkie";
-
-            FiltrujOceny();
-        }
+         
+        
 
         private void ObliczStatystyki()
         {
@@ -202,7 +147,7 @@ namespace APKA
                 WidokOceny.Visibility = Visibility.Collapsed;
                 WidokUwag.Visibility = Visibility.Collapsed;
                 WidokSprawdzianow.Visibility = Visibility.Collapsed;
-                WidokFiltrow.Visibility = Visibility.Collapsed;
+
 
                 if (btn.Name == "btnOcenyMenu")
                     WidokOceny.Visibility = Visibility.Visible;
@@ -219,7 +164,6 @@ namespace APKA
             WidokOceny.Visibility = Visibility.Collapsed;
             WidokUwag.Visibility = Visibility.Collapsed;
             WidokSprawdzianow.Visibility = Visibility.Collapsed;
-            WidokFiltrow.Visibility = Visibility.Visible;
         }
 
         private void BackToMenu_Click(object sender, RoutedEventArgs e)
@@ -227,7 +171,6 @@ namespace APKA
             WidokUwag.Visibility = Visibility.Collapsed;
             WidokOceny.Visibility = Visibility.Collapsed;
             WidokSprawdzianow.Visibility = Visibility.Collapsed;
-            WidokFiltrow.Visibility = Visibility.Collapsed;
             PanelMenu.Visibility = Visibility.Visible;
 
             aktualnyPrzedmiot = null;

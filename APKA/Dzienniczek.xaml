@@ -275,6 +275,7 @@
             Click="BtnDodajSprawdzian_Click"/>
 
             </StackPanel>
+            
 
         </Grid>
     </Grid>

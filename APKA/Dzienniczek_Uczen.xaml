@@ -8,8 +8,8 @@
              d:DesignHeight="550" d:DesignWidth="850">
     <Grid Background="#FF07123C">
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -23,7 +23,7 @@
 
                 <!-- DANE UCZNIA -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text=" " Foreground="White" FontSize="18"/>
+                    <TextBlock Text="Zalogowano jako: " Foreground="Gray" VerticalAlignment="Center"/>
                     <TextBlock x:Name="UserDisplay" Text="" Foreground="#FFFF0C00" FontWeight="Bold" FontSize="16"/>
                     <TextBlock Text=" |  Klasa: " Foreground="White" Margin="20,0,0,0"/>
                     <TextBlock x:Name="txtKlasa" Text="" Foreground="#FFFF0C00" FontWeight="Bold"/>
@@ -83,11 +83,11 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+
                 </Grid.ColumnDefinitions>
 
                 <!-- OCENY -->
-                <Button x:Name="btnOcenyMenu" Grid.Column="0" Width="180" Height="180" Margin="15"
+                <Button x:Name="btnOcenyMenu" Grid.Column="0" Width="220" Height="220" Margin="15"
                         Background="#2ECC71" Foreground="White" BorderThickness="0"
                         Click="MenuButton_Click">
                     <StackPanel>
@@ -100,7 +100,7 @@
                 </Button>
 
                 <!-- UWAGI -->
-                <Button x:Name="btnUwagiMenu" Grid.Column="1" Width="180" Height="180" Margin="15"
+                <Button x:Name="btnUwagiMenu" Grid.Column="1" Width="220" Height="220" Margin="15"
                         Background="#FFD7921F" Foreground="White" BorderThickness="0"
                         Click="MenuButton_Click">
                     <StackPanel>
@@ -113,7 +113,7 @@
                 </Button>
 
                 <!-- SPRAWDZIANY -->
-                <Button x:Name="btnSprawdzianyMenu" Grid.Column="2" Width="180" Height="180" Margin="15"
+                <Button x:Name="btnSprawdzianyMenu" Grid.Column="2" Width="220" Height="220" Margin="15"
                         Background="#FF962ECC" Foreground="White" BorderThickness="0"
                         Click="MenuButton_Click">
                     <StackPanel>
@@ -126,15 +126,7 @@
                 </Button>
 
                 <!-- FILTROWANIE OCEN -->
-                <Button x:Name="btnFiltryMenu" Grid.Column="3" Width="180" Height="180" Margin="15"
-                        Background="#2196F3" Foreground="White" BorderThickness="0"
-                        Click="Filtry_Click">
-                    <StackPanel>
-                        <TextBlock Text="🔍" FontSize="60" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                        <TextBlock Text="FILTRUJ OCENY" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Po przedmiocie" HorizontalAlignment="Center" Margin="10" FontSize="12"/>
-                    </StackPanel>
-                </Button>
+
             </Grid>
 
             <!-- WIDOK OCEN -->
@@ -154,7 +146,7 @@
                                   SelectionChanged="FiltrujOceny_Changed">
                             <ComboBoxItem Content="Wszystkie przedmioty"/>
                         </ComboBox>
-                        <Button Content="🧮 Oblicz średnią" Click="ObliczSrednia_Click" 
+                        <Button Content=" Oblicz średnią" Click="ObliczSrednia_Click" 
                                 Padding="10,5" Background="#2ECC71" Foreground="White"/>
                     </StackPanel>
                 </Grid>
@@ -235,22 +227,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
-
-            <!-- WIDOK FILTRÓW -->
-            <StackPanel x:Name="WidokFiltrow" Visibility="Collapsed" Margin="20">
-                <Button Content="← Powrót" Margin="10"
-                        Click="BackToMenu_Click" Padding="10,5" HorizontalAlignment="Left"/>
-
-                <TextBlock Text="FILTRUJ OCENY PO PRZEDMIOCIE"
-                           Foreground="#FF07123C" FontSize="20" FontWeight="Bold"
-                           HorizontalAlignment="Center" Margin="0,0,0,20"/>
-
-                <WrapPanel x:Name="PanelPrzyciskowPrzedmiotow" HorizontalAlignment="Center">
-                </WrapPanel>
-
-                <TextBlock x:Name="txtWybranyPrzedmiot" Text="Wybrany przedmiot: Wszystkie" 
-                           HorizontalAlignment="Center" Margin="0,20,0,0" FontWeight="Bold"/>
-            </StackPanel>
+    
         </Grid>
     </Grid>
 </UserControl>
