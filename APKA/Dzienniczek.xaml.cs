@@ -119,6 +119,10 @@ namespace APKA
                 DataWystawienia = DateTime.Today,
                 Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko
             });
+
+
+            DataManager.Zapisz();
+
             MessageBox.Show("Dodano uwagę!");
 
             TxtUwaga.Text = "";

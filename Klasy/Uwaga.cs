@@ -13,6 +13,10 @@ namespace Klasy
 
         public TypUwagi typ { get; set; }
 
+        public Uwaga()
+        {
+            
+        }
 
     }
 }
