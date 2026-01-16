@@ -18,5 +18,16 @@ namespace APKA
         {
             Przedmiot = przedmiot;
         }
+
+
+        public override string PobierzNaglowek()
+        {
+            return $"{base.PobierzNaglowek()} (Nauczyciel: {Przedmiot})";
+        }
+
+
+
+
+
     }
 }
