@@ -26,7 +26,7 @@ namespace APKA
             InitializeComponent();
             
             zalogowany = osoba;
-            UserDisplay.Text = $"{osoba.Imie} {osoba.Nazwisko}";
+            UserDisplay.Text = zalogowany.PobierzNaglowek();
             GridOceny.ItemsSource = zalogowany.Oceny;
             GridUwagi.ItemsSource = zalogowany.Uwagi;
         }

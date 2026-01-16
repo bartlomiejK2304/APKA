@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Klasy;
 
 namespace APKA
 {
+    [XmlInclude(typeof(Uczen))]
+    [XmlInclude(typeof(Nauczyciel))]
     public abstract class Osoba
     {
         public string ?Imie { get; set; }
@@ -31,6 +34,12 @@ namespace APKA
         public string Login { get; set; }
         public string Haslo { get; set; }
 
+
+        public Osoba()
+        {
+            
+        }
+
         protected Osoba(string imie, string nazwisko, string pesel, string login, string haslo)
         {
             Imie = imie;
@@ -40,8 +49,10 @@ namespace APKA
             Haslo = haslo;
         }
 
-      
-
+      public virtual  string PobierzNaglowek()
+        {
+            return $"{Imie} {Nazwisko}";
+        }
         
     }
 

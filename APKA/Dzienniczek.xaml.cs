@@ -17,7 +17,7 @@ namespace APKA
             InitializeComponent();
             zalogowany = osoba;
 
-            UserDisplay.Text = $"{osoba.Imie} {osoba.Nazwisko}";
+            UserDisplay.Text = zalogowany.PobierzNaglowek();
         }
 
         private void Subject_Click(object sender, MouseButtonEventArgs e)
@@ -119,6 +119,10 @@ namespace APKA
                 DataWystawienia = DateTime.Today,
                 Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko
             });
+
+
+            DataManager.Zapisz();
+
             MessageBox.Show("Dodano uwagę!");
 
             TxtUwaga.Text = "";
