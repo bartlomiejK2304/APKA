@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml.Serialization;
 namespace APKA
 {
     public class Uczen:Osoba
@@ -13,11 +13,17 @@ namespace APKA
         public List<Ocena> Oceny = new List<Ocena>();
         public string NazwaKlasy { get; set; }
 
+        public Uczen()
+        {
+            
+        }
+
         public Uczen(string imie, string nazwisko, string pesel, string login, string haslo, string nazwaKlasy)
            : base(imie, nazwisko, pesel, login, haslo)
         {
             NazwaKlasy = nazwaKlasy;
         }
+
 
         public void DodajUwage(Uwaga uwaga)
         {

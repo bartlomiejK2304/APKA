@@ -38,6 +38,12 @@ namespace Klasy
                 dataWystawienia = value;
             }
         }
+
+        public Ocena()
+        {
+            
+        }
+
         public Ocena(int wartosc, Przedmiot przedmiot, TypOceny typ, DateTime dataWystawienia)
         {
             Wartosc = wartosc;

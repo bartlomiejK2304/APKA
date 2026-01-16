@@ -1,52 +1,46 @@
 ﻿using APKA;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Klasy
 {
+    
     public static class DataManager
     {
         public static List<Uczen> Uczniowie = new();
         public static List<Nauczyciel> Nauczyciele = new();
 
+        // Plik zapisu
         private static string Sciezka = "dane.xml";
 
         public static void Wczytaj()
         {
-            if (!File.Exists(Sciezka)) return;
+            DziennikStore? wczytaneDane = DziennikStore.OdczytXml(Sciezka);
 
-            XDocument doc = XDocument.Load(Sciezka);
-
-            // Nauczyciele
-            foreach (var n in doc.Root.Element("Nauczyciele").Elements("Nauczyciel"))
+            if (wczytaneDane != null)
             {
-                Nauczyciele.Add(new Nauczyciel(
-                    n.Element("Imie").Value,
-                    n.Element("Nazwisko").Value,
-                    n.Element("Pesel").Value,
-                    n.Element("Login").Value,
-                    n.Element("Haslo").Value,
-                    (Przedmiot)Enum.Parse(typeof(Przedmiot), n.Element("Przedmiot").Value)
-                ));
+                Uczniowie = wczytaneDane.ListaUczniow;
+                Nauczyciele = wczytaneDane.ListaNauczycieli;
+            }
+            else
+            {
+                DodajDaneStartowe();
             }
 
-            // Uczniowie
-            foreach (var u in doc.Root.Element("Uczniowie").Elements("Uczen"))
-            {
-                Uczniowie.Add(new Uczen(
-                    u.Element("Imie").Value,
-                    u.Element("Nazwisko").Value,
-                    u.Element("Pesel").Value,
-                    u.Element("Login").Value,
-                    u.Element("Haslo").Value,
-                    u.Element("Klasa").Value   
-                ));
-            }
         }
+
+        public static void Zapisz()
+        {
+            DziennikStore store = new DziennikStore();
+            store.ListaUczniow = Uczniowie;
+            store.ListaNauczycieli = Nauczyciele;
+
+            store.ZapisXml(Sciezka);
+        }
+
 
         public static Osoba Zaloguj(string login, string haslo)
         {
@@ -59,6 +53,46 @@ namespace Klasy
         public static List<Uczen> PobierzKlase(string klasa)
         {
             return Uczniowie.Where(u => u.NazwaKlasy == klasa).ToList();
+        }
+
+        private static void DodajDaneStartowe()
+        {
+            Nauczyciele.Add(new Nauczyciel("Jan", "Kowalski", "80010112345", "belfer", "123", Przedmiot.Matematyka));
+            Uczniowie.Add(new Uczen("Adam", "Nowak", "05210112345", "uczen", "123", "1A"));
+            Uczniowie.Add(new Uczen("Andrzej", "Kowalski", "05413212345", "uczen", "123", "1A"));
+
+            Zapisz();
+        }
+    }
+
+  
+    [XmlRoot("DziennikDanych")]
+    public class DziennikStore
+    {
+        public List<Uczen> ListaUczniow { get; set; }
+        public List<Nauczyciel> ListaNauczycieli { get; set; }
+
+        public DziennikStore()
+        {
+            ListaUczniow = new List<Uczen>();
+            ListaNauczycieli = new List<Nauczyciel>();
+        }
+
+        public void ZapisXml(string nazwaPliku)
+        {
+            using StreamWriter sw = new StreamWriter(nazwaPliku);
+            XmlSerializer xs = new XmlSerializer(typeof(DziennikStore));
+            xs.Serialize(sw, this);
+        }
+
+        public static DziennikStore? OdczytXml(string nazwaPliku)
+        {
+            if (!File.Exists(nazwaPliku)) return null;
+
+            using StreamReader sr = new StreamReader(nazwaPliku);
+            XmlSerializer xs = new XmlSerializer(typeof(DziennikStore));
+
+            return (DziennikStore?)xs.Deserialize(sr);
         }
     }
 }
