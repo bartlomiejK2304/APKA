@@ -29,5 +29,17 @@ namespace APKA
             Uwagi.Remove(uwaga);
         }
 
+
+
+        public override string PobierzNaglowek()
+        {
+            return $"{base.PobierzNaglowek()} (Uczeń kl. {NazwaKlasy})";
+        }
+
+
+
+
+
+
     }
 }

@@ -40,8 +40,10 @@ namespace APKA
             Haslo = haslo;
         }
 
-      
-
+      public virtual  string PobierzNaglowek()
+        {
+            return $"{Imie} {Nazwisko}";
+        }
         
     }
 
