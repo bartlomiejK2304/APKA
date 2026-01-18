@@ -47,7 +47,7 @@
             </Grid.Background>
 
             <!-- MENU -->
-            <Grid x:Name="PanelMenu" Visibility="Visible">
+            <Grid x:Name="PanelMenu" Visibility="Hidden">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -89,12 +89,45 @@
             </Grid>
 
             <!-- WIDOK OCEN -->
-            <StackPanel x:Name="WidokOceny" Visibility="Collapsed" VerticalAlignment="Stretch">
-                <Button Content="← Powrót do menu" Margin="10"
-                        Click="BackToMenu_Click" Padding="10,5"/>
-                <TextBlock Text="TABELA OCEN" Foreground="#FF07123C"
-                           HorizontalAlignment="Center"
-                           FontSize="24" Margin="20" FontWeight="Bold"/>
+            <StackPanel x:Name="WidokOceny" Visibility="Visible" VerticalAlignment="Stretch">
+                <Grid Height="314">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
+                        <Button Content="← Powrót do menu" Margin="10" Click="BackToMenu_Click" Padding="10,5"/>
+                        <TextBlock Text="Wybierz klase" Margin="20,10,10,2"/>
+                        <ComboBox Name="klasy_wybor" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Klasa_SelectionChanged_1" IsReadOnly="True" />
+                        <TextBlock Text="Wybierz Ucznia" Margin="20,0,0,2"/>
+                        <ComboBox Name="Uczniowie" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="120"/>
+                        <TextBlock Margin="20,0,0,2"><Run Text="Wybierz"/><Run Language="pl-pl" Text=" Przedmiot"/><Run Text=" "/></TextBlock>
+                        <ComboBox Name="Przedmiot"  HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="120"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Center" Text="Wybierz Ocene:" Width="120" Margin="0,30,10,10" TextChanged="TextBox_TextChanged_1" Background="#FFDDDDDD" BorderBrush="Black" TextAlignment="Center" />
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox x:Name="Oceny" Width="417" Height="72" SelectionChanged="Oceny_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}">
+                                <ListBoxItem Content="1" Background="#FF4D4D" Foreground="White" FontWeight="Bold" Margin="2"/>
+                                <ListBoxItem Content="2" Background="#FF8C4D" Foreground="White" Margin="2"/>
+                                <ListBoxItem Content="3" Background="#FFD44D" Foreground="Black" Margin="2"/>
+                                <ListBoxItem Content="4" Background="#D4FF4D" Foreground="Black" Margin="2"/>
+                                <ListBoxItem Content="5" Background="#4DFF4D" Foreground="Black" Margin="2"/>
+                                <ListBoxItem Content="6" Background="#2ECC71" Foreground="White" FontWeight="Bold" Margin="2"/>
+                            </ListBox>
+                          
+
+
+                        </StackPanel>
+                        <Button Content="Dodaj Ocene" Margin="20" Click="Ocena_Add_Click" />
+
+
+
+                    </StackPanel>
+                </Grid>
+
             </StackPanel>
 
             <!-- WIDOK UCZNIÓW + UWAGI -->
@@ -209,6 +242,7 @@
             Click="BtnDodajSprawdzian_Click"/>
 
             </StackPanel>
+
 
         </Grid>
     </Grid>

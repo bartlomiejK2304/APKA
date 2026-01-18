@@ -45,7 +45,7 @@ namespace APKA
             var mainWindow = (MainWindow)Window.GetWindow(this);
             if (osoba is Nauczyciel)
             {
-                mainWindow.MainContent.Content = new Dzienniczek(osoba);
+                mainWindow.MainContent.Content = new Dzienniczek((Nauczyciel)osoba);
             }
             else
                 mainWindow.MainContent.Content = new Dzienniczek_Uczen((Uczen)osoba);

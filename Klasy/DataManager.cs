@@ -57,7 +57,7 @@ namespace Klasy
 
         private static void DodajDaneStartowe()
         {
-            Nauczyciele.Add(new Nauczyciel("Jan", "Kowalski", "80010112345", "belfer", "123", Przedmiot.Matematyka));
+            Nauczyciele.Add(new Nauczyciel("Jan", "Kowalski", "80010112345", "belfer", "123", new List<Przedmiot> { Przedmiot.Matematyka, Przedmiot.Fizyka }));
             Uczniowie.Add(new Uczen("Adam", "Nowak", "05210112345", "uczen", "123", "1A"));
             Uczniowie.Add(new Uczen("Andrzej", "Kowalski", "05413212345", "uczen", "123", "1A"));
 

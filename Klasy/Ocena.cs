@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Klasy
 {
+
     public class Ocena
     {
         private int wartosc;

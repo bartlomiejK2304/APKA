@@ -10,14 +10,18 @@ namespace APKA
 {
     public partial class Dzienniczek : UserControl
     {
-        private Osoba zalogowany;
 
-        public Dzienniczek(Osoba osoba)
+        private Nauczyciel zalogowany;
+
+       
+        public Dzienniczek(Nauczyciel osoba)
         {
             InitializeComponent();
-            zalogowany = osoba;
+            zalogowany = (Nauczyciel)osoba;
 
             UserDisplay.Text = zalogowany.PobierzNaglowek();
+            klasy_wybor.ItemsSource = osoba.Przedmioty;
+
         }
 
         private void Subject_Click(object sender, MouseButtonEventArgs e)
@@ -37,15 +41,7 @@ namespace APKA
             }
         }
 
-        private void btnPoprzedni_Click(object sender, RoutedEventArgs e)
-        {
-            // todo
-        }
-
-        private void btnNastepny_Click(object sender, RoutedEventArgs e)
-        {
-            // todo
-        }
+        
 
         private void BackToMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -164,6 +160,34 @@ namespace APKA
             DateSprawdzian.SelectedDate = null;
         }
 
+        private void Klasa_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Ocena_Add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Klasa_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Oceny_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // handler placeholder for ListBox selection changed - currently no action required
+        }
     }
 }
