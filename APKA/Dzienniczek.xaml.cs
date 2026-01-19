@@ -127,7 +127,7 @@ namespace APKA
             string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
             uczniowieKlasy = DataManager.PobierzKlase(klasa);
 
-            if (uczniowieKlasy.Count == 0)
+            if (uczniowieKlasy.Count == 0 || uczniowieKlasy == null)
             {
                 MessageBox.Show($"Brak uczniów w klasie {klasa}.");
 
@@ -138,6 +138,7 @@ namespace APKA
             {
                 ComboUczenOceny.ItemsSource = uczniowieKlasy;
                 ComboUczenOceny.DisplayMemberPath = "ImieNazwisko";
+                ComboUczenOceny.IsEnabled = true;
             }
         }
 
@@ -268,14 +269,7 @@ namespace APKA
                 MessageBox.Show("Wpisz treść uwagi.");
                 return;
             }
-            if (ComboTypUwagi.SelectedItem == null)
-            {
-                MessageBox.Show("Wybierz typ uwagi.");
-                return;
-            }
-
-            var typUwagi = (ComboTypUwagi.SelectedItem as ComboBoxItem).Tag.ToString();
-            TypUwagi typ = typUwagi == "Pozytywna" ? TypUwagi.Pozytywna : TypUwagi.Negatywna;
+          
 
             Uczen wybranyUczen = (Uczen)ListaUczniow.SelectedItem;
             wybranyUczen.DodajUwage(new Uwaga
@@ -283,7 +277,6 @@ namespace APKA
                 Tresc = TxtUwaga.Text,
                 DataWystawienia = DateTime.Today,
                 Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko,
-                typ = typ
             });
 
 
@@ -292,7 +285,6 @@ namespace APKA
             MessageBox.Show("Dodano uwagę!");
 
             TxtUwaga.Text = "";
-            ComboTypUwagi.SelectedItem = null;
         }
 
         private void BtnDodajSprawdzian_Click(object sender, RoutedEventArgs e)
