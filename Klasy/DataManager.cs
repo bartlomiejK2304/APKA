@@ -12,6 +12,7 @@ namespace Klasy
     {
         public static List<Uczen> Uczniowie = new();
         public static List<Nauczyciel> Nauczyciele = new();
+        public static List<Sprawdzian> Sprawdziany = new();
 
         // Plik zapisu
         private static string Sciezka = "dane.xml";
@@ -24,6 +25,7 @@ namespace Klasy
             {
                 Uczniowie = wczytaneDane.ListaUczniow;
                 Nauczyciele = wczytaneDane.ListaNauczycieli;
+                Sprawdziany = wczytaneDane.ListaSprawdzianow;
             }
             else
             {
@@ -37,6 +39,7 @@ namespace Klasy
             DziennikStore store = new DziennikStore();
             store.ListaUczniow = Uczniowie;
             store.ListaNauczycieli = Nauczyciele;
+            store.ListaSprawdzianow = Sprawdziany;
 
             store.ZapisXml(Sciezka);
         }
@@ -54,12 +57,22 @@ namespace Klasy
         {
             return Uczniowie.Where(u => u.NazwaKlasy == klasa).ToList();
         }
+        public static void DodajSprawdzian(Sprawdzian sprawdzian)
+        {
+            Sprawdziany.Add(sprawdzian);
+            Zapisz();
+        }
 
+        public static List<Sprawdzian> PobierzSprawdzianyDlaKlasy(string klasa)
+        {
+            return Sprawdziany.Where(s => s.Klasa == klasa).ToList();
+        }
         private static void DodajDaneStartowe()
         {
             Nauczyciele.Add(new Nauczyciel("Jan", "Kowalski", "80010112345", "belfer", "123", new List<Przedmiot> { Przedmiot.Matematyka, Przedmiot.Fizyka }));
             Uczniowie.Add(new Uczen("Adam", "Nowak", "05210112345", "uczen", "123", "1A"));
             Uczniowie.Add(new Uczen("Andrzej", "Kowalski", "05413212345", "uczen", "123", "1A"));
+
 
             Zapisz();
         }
@@ -71,11 +84,13 @@ namespace Klasy
     {
         public List<Uczen> ListaUczniow { get; set; }
         public List<Nauczyciel> ListaNauczycieli { get; set; }
+        public List<Sprawdzian> ListaSprawdzianow { get; set; }
 
         public DziennikStore()
         {
             ListaUczniow = new List<Uczen>();
             ListaNauczycieli = new List<Nauczyciel>();
+            ListaSprawdzianow = new List<Sprawdzian>();
         }
 
         public void ZapisXml(string nazwaPliku)

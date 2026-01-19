@@ -108,12 +108,22 @@ namespace APKA
                 MessageBox.Show("Wpisz treść uwagi.");
                 return;
             }
+            if (ComboTypUwagi.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz typ uwagi.");
+                return;
+            }
+
+            var typUwagi = (ComboTypUwagi.SelectedItem as ComboBoxItem).Tag.ToString();
+            TypUwagi typ = typUwagi == "Pozytywna" ? TypUwagi.Pozytywna : TypUwagi.Negatywna;
+
             Uczen wybranyUczen = (Uczen)ListaUczniow.SelectedItem;
             wybranyUczen.DodajUwage(new Uwaga
             {
                 Tresc = TxtUwaga.Text,
                 DataWystawienia = DateTime.Today,
-                Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko
+                Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko,
+                typ = typ
             });
 
 
@@ -122,6 +132,8 @@ namespace APKA
             MessageBox.Show("Dodano uwagę!");
 
             TxtUwaga.Text = "";
+            ComboTypUwagi.SelectedItem = null;
+
         }
         private void BtnDodajSprawdzian_Click(object sender, RoutedEventArgs e)
         {
@@ -143,6 +155,7 @@ namespace APKA
                 return;
             }
 
+
             if (DateSprawdzian.SelectedDate <DateTime.Now)
             {
                 MessageBox.Show("Zła data","Błąd",MessageBoxButton.OK, MessageBoxImage.Error);
@@ -152,6 +165,11 @@ namespace APKA
 
                 string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
             DateTime data = DateSprawdzian.SelectedDate.Value;
+
+
+            Przedmiot przedmiot = zalogowany.Przedmioty.FirstOrDefault();
+            Sprawdzian nowySprawdzian = new Sprawdzian(przedmiot, "Sprawdzian", data, klasa);
+            DataManager.DodajSprawdzian(nowySprawdzian);
 
             MessageBox.Show($"Dodano sprawdzian dla klasy {klasa} na dzień {data.ToShortDateString()}!");
 

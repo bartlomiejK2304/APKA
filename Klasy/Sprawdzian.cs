@@ -13,6 +13,7 @@ namespace Klasy
         private string ?temat;
         private string ?klasa;
 
+
         public Przedmiot Przedmiot { get => przedmiot; set => przedmiot = value; }
         public DateTime Data 
         { get => data; set => data = value; }
@@ -20,6 +21,9 @@ namespace Klasy
         public string Temat { get => temat; set => temat = value; }
 
         public string Klasa { get => klasa; set => klasa = value; }
+
+
+        public Sprawdzian() { }
 
         public Sprawdzian(Przedmiot przedmiot, string temat, DateTime data, string klasa)
         {
