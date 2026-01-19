@@ -127,7 +127,7 @@ namespace APKA
             string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
             uczniowieKlasy = DataManager.PobierzKlase(klasa);
 
-            if (uczniowieKlasy.Count == 0)
+            if (uczniowieKlasy.Count == 0 || uczniowieKlasy == null)
             {
                 MessageBox.Show($"Brak uczniów w klasie {klasa}.");
 
@@ -138,6 +138,7 @@ namespace APKA
             {
                 ComboUczenOceny.ItemsSource = uczniowieKlasy;
                 ComboUczenOceny.DisplayMemberPath = "ImieNazwisko";
+                ComboUczenOceny.IsEnabled = true;
             }
         }
 
