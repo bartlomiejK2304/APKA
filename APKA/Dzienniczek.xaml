@@ -47,7 +47,7 @@
             </Grid.Background>
 
             <!-- MENU -->
-            <Grid x:Name="PanelMenu" Visibility="Hidden">
+            <Grid x:Name="PanelMenu" Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -89,7 +89,7 @@
             </Grid>
 
             <!-- WIDOK OCEN -->
-            <StackPanel x:Name="WidokOceny" Visibility="Visible" VerticalAlignment="Stretch">
+            <StackPanel x:Name="WidokOceny" Visibility="Collapsed" VerticalAlignment="Stretch">
                 <Grid Height="314">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

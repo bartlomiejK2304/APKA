@@ -16,20 +16,19 @@
         <Viewbox Grid.Row="0" Margin="0,40,0,0" Stretch="Uniform">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/APKA;component/LOGO.png"
-       Width="60"
-       Height="60"
-       Margin="0,0,0,10"/>
+                       Width="60"
+                       Height="60"
+                       Margin="0,0,0,10"/>
                 <TextBlock Text="DZIENNICZEK"
                            Foreground="#FF1B2897" 
                            FontFamily="Yu Gothic UI Semibold" 
                            VerticalAlignment="Center"
                            FontWeight="Bold"
                            Margin="0,0,0,10" FontSize="18"/>
-                
             </StackPanel>
         </Viewbox>
 
-        <Border Grid.Row="1" 
+        <Border x:Name="LoginContainer" Grid.Row="1" 
                 Background="White"
                 BorderThickness="0" 
                 CornerRadius="20" 
@@ -38,6 +37,10 @@
                 VerticalAlignment="Top" 
                 Width="450" 
                 Height="Auto">
+
+            <Border.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Border.RenderTransform>
 
             <Border.Effect>
                 <DropShadowEffect BlurRadius="25" ShadowDepth="2" Opacity="0.1"/>
