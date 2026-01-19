@@ -42,6 +42,10 @@ namespace APKA
             return $"{base.PobierzNaglowek()} (Uczeń kl. {NazwaKlasy})";
         }
 
+        public string ImieNazwisko
+        {
+            get { return $"{Imie} {Nazwisko}"; }
+        }
 
 
 

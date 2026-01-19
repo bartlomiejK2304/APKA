@@ -21,6 +21,16 @@
 			<Oceny />
 			<NazwaKlasy>1A</NazwaKlasy>
 		</Uczen>
+		<Uczen>
+			<Imie>Andrzej</Imie>
+			<Nazwisko>Nowak </Nazwisko>
+			<Pesel>05413212345</Pesel>
+			<Login>uczen3</Login>
+			<Haslo>123</Haslo>
+			<Uwagi />
+			<Oceny />
+			<NazwaKlasy>1B</NazwaKlasy>
+		</Uczen>
 	</ListaUczniow>
 	<ListaNauczycieli>
 		<Nauczyciel>
