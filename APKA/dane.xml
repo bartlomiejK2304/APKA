@@ -31,6 +31,46 @@
 			<Oceny />
 			<NazwaKlasy>1B</NazwaKlasy>
 		</Uczen>
+		<Uczen>
+			<Imie>Sebastian</Imie>
+			<Nazwisko>Kamiński</Nazwisko>
+			<Pesel>05413254345</Pesel>
+			<Login>uczen4</Login>
+			<Haslo>123</Haslo>
+			<Uwagi />
+			<Oceny />
+			<NazwaKlasy>1B</NazwaKlasy>
+		</Uczen>
+		<Uczen>
+			<Imie>Przemysław</Imie>
+			<Nazwisko>Babiarz</Nazwisko>
+			<Pesel>05413542345</Pesel>
+			<Login>uczen5</Login>
+			<Haslo>123</Haslo>
+			<Uwagi />
+			<Oceny />
+			<NazwaKlasy>1A</NazwaKlasy>
+		</Uczen>
+		<Uczen>
+			<Imie>Janusz</Imie>
+			<Nazwisko>Tracz</Nazwisko>
+			<Pesel>05413276345</Pesel>
+			<Login>uczen6</Login>
+			<Haslo>123</Haslo>
+			<Uwagi />
+			<Oceny />
+			<NazwaKlasy>2A</NazwaKlasy>
+		</Uczen>
+		<Uczen>
+			<Imie>Katarzyna</Imie>
+			<Nazwisko>Nowakowska</Nazwisko>
+			<Pesel>05416712345</Pesel>
+			<Login>uczen7</Login>
+			<Haslo>123</Haslo>
+			<Uwagi />
+			<Oceny />
+			<NazwaKlasy>2A</NazwaKlasy>
+		</Uczen>
 	</ListaUczniow>
 	<ListaNauczycieli>
 		<Nauczyciel>
@@ -48,6 +88,22 @@
 			<Login>belfer1</Login>
 			<Haslo>123</Haslo>
 			<Przedmiot>Fizyka</Przedmiot>
+		</Nauczyciel>
+		<Nauczyciel>
+			<Imie>Kamil</Imie>
+			<Nazwisko>Stoch</Nazwisko>
+			<Pesel>83010112346</Pesel>
+			<Login>belfer3</Login>
+			<Haslo>123</Haslo>
+			<Przedmiot>JezykAngielski</Przedmiot>
+		</Nauczyciel>
+		<Nauczyciel>
+			<Imie>Robert</Imie>
+			<Nazwisko>Lewandowski</Nazwisko>
+			<Pesel>87010112346</Pesel>
+			<Login>belfer2</Login>
+			<Haslo>123</Haslo>
+			<Przedmiot>WychowanieFizyczne</Przedmiot>
 		</Nauczyciel>
 	</ListaNauczycieli>
 	<ListaSprawdzianow></ListaSprawdzianow>
