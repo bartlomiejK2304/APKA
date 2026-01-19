@@ -212,13 +212,6 @@
                 <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="10">
                     <StackPanel>
 
-                        <StackPanel>
-                            <TextBlock Text="Typ uwagi:" FontWeight="Bold" Margin="0,0,0,5"/>
-                            <ComboBox x:Name="ComboTypUwagi" Width="120" HorizontalAlignment="Left" Margin="0,5">
-                                <ComboBoxItem Content="Pozytywna" Tag="Pozytywna"/>
-                                <ComboBoxItem Content="Negatywna" Tag="Negatywna"/>
-                            </ComboBox>
-                        </StackPanel>
 
                         <TextBox x:Name="TxtUwaga"
                                  Height="60"
