@@ -32,4 +32,5 @@
 			<Przedmiot>Matematyka</Przedmiot>
 		</Nauczyciel>
 	</ListaNauczycieli>
+	<ListaSprawdzianow></ListaSprawdzianow>
 </DziennikDanych>

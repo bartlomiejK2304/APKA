@@ -221,7 +221,7 @@
                           AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Przedmiot" Binding="{Binding Przedmiot}" Width="*"/>
-                        <DataGridTextColumn Header="Typ" Binding="{Binding Typ}" Width="200"/>
+                        <DataGridTextColumn Header="Temat" Binding="{Binding Temat}" Width="200"/>
                         <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat=\{0:dd.MM.yyyy\}}" Width="100"/>
 
                     </DataGrid.Columns>

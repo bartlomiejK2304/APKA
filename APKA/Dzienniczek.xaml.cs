@@ -155,12 +155,6 @@ namespace APKA
                 return;
             }
 
-            if (ComboTypSprawdzianu.SelectedItem == null)
-            {
-                MessageBox.Show("Wybierz typ sprawdzianu.");
-                return;
-            }
-
 
             if (DateSprawdzian.SelectedDate <DateTime.Now)
             {
@@ -171,15 +165,10 @@ namespace APKA
 
                 string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
             DateTime data = DateSprawdzian.SelectedDate.Value;
-            var typText = (ComboTypSprawdzianu.SelectedItem as ComboBoxItem)?.Tag?.ToString();
-            if (!Enum.TryParse<TypOceny>(typText, out TypOceny typ))
-            {
-                MessageBox.Show("Nieprawidłowy typ sprawdzianu.");
-                return;
-            }
+
 
             Przedmiot przedmiot = zalogowany.Przedmioty.FirstOrDefault();
-            Sprawdzian nowySprawdzian = new Sprawdzian(przedmiot, "Sprawdzian", data, klasa, typ);
+            Sprawdzian nowySprawdzian = new Sprawdzian(przedmiot, "Sprawdzian", data, klasa);
             DataManager.DodajSprawdzian(nowySprawdzian);
 
             MessageBox.Show($"Dodano sprawdzian dla klasy {klasa} na dzień {data.ToShortDateString()}!");
@@ -187,7 +176,6 @@ namespace APKA
             // Czyścimy wybór
             ComboKlasaSprawdziany.SelectedItem = null;
             DateSprawdzian.SelectedDate = null;
-            ComboTypSprawdzianu.SelectedItem = null;
         }
 
         private void Klasa_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -73,6 +73,7 @@ namespace Klasy
             Uczniowie.Add(new Uczen("Adam", "Nowak", "05210112345", "uczen", "123", "1A"));
             Uczniowie.Add(new Uczen("Andrzej", "Kowalski", "05413212345", "uczen", "123", "1A"));
 
+
             Zapisz();
         }
     }

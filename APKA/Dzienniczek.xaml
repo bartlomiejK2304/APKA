@@ -236,18 +236,7 @@
 
                     <DatePicker x:Name="DateSprawdzian" Width="150"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                    <TextBlock Text="Typ sprawdzianu:"
-               FontWeight="Bold"
-               Margin="0,0,10,0"/>
-                    <ComboBox x:Name="ComboTypSprawdzianu" Width="150">
-                        <ComboBoxItem Content="Sprawdzian" Tag="Sprawdzian"/>
-                        <ComboBoxItem Content="Kartkówka" Tag="Kartkowka"/>
-                        <ComboBoxItem Content="Aktywność" Tag="Aktywnosc"/>
-                        <ComboBoxItem Content="Projekt" Tag="Projekt"/>
-                        <ComboBoxItem Content="Odpowiedz" Tag="Odpowiedz"/>
-                    </ComboBox>
-                </StackPanel>
+ 
 
                 <!-- PRZYCISK -->
                 <Button Content="Dodaj sprawdzian"
