@@ -178,9 +178,13 @@
                 <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="10">
                     <StackPanel>
 
-                        <TextBlock Text="Dodaj uwagę dla wybranego ucznia"
-                                   FontWeight="Bold"
-                                   Margin="0,0,0,5"/>
+                        <StackPanel>
+                            <TextBlock Text="Typ uwagi:" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="ComboTypUwagi" Width="120" HorizontalAlignment="Left" Margin="0,5">
+                                <ComboBoxItem Content="Pozytywna" Tag="Pozytywna"/>
+                                <ComboBoxItem Content="Negatywna" Tag="Negatywna"/>
+                            </ComboBox>
+                        </StackPanel>
 
                         <TextBox x:Name="TxtUwaga"
                                  Height="60"
@@ -231,6 +235,18 @@
                    Margin="0,0,10,0"/>
 
                     <DatePicker x:Name="DateSprawdzian" Width="150"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <TextBlock Text="Typ sprawdzianu:"
+               FontWeight="Bold"
+               Margin="0,0,10,0"/>
+                    <ComboBox x:Name="ComboTypSprawdzianu" Width="150">
+                        <ComboBoxItem Content="Sprawdzian" Tag="Sprawdzian"/>
+                        <ComboBoxItem Content="Kartkówka" Tag="Kartkowka"/>
+                        <ComboBoxItem Content="Aktywność" Tag="Aktywnosc"/>
+                        <ComboBoxItem Content="Projekt" Tag="Projekt"/>
+                        <ComboBoxItem Content="Odpowiedz" Tag="Odpowiedz"/>
+                    </ComboBox>
                 </StackPanel>
 
                 <!-- PRZYCISK -->
