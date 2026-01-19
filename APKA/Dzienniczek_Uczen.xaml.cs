@@ -24,7 +24,6 @@ namespace APKA
         private void InicjalizujDane()
         {
             UserDisplay.Text = zalogowany.PobierzNaglowek();
-            txtKlasa.Text = zalogowany.NazwaKlasy;
 
             cmbFiltrujPrzedmiot.Items.Clear();
             cmbFiltrujPrzedmiot.Items.Add("Wszystkie przedmioty");
