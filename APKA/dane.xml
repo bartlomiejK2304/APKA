@@ -31,6 +31,14 @@
 			<Haslo>123</Haslo>
 			<Przedmiot>Matematyka</Przedmiot>
 		</Nauczyciel>
+		<Nauczyciel>
+			<Imie>Pan</Imie>
+			<Nazwisko>Polski</Nazwisko>
+			<Pesel>80010112346</Pesel>
+			<Login>belfer1</Login>
+			<Haslo>123</Haslo>
+			<Przedmiot>Fizyka</Przedmiot>
+		</Nauczyciel>
 	</ListaNauczycieli>
 	<ListaSprawdzianow></ListaSprawdzianow>
 </DziennikDanych>

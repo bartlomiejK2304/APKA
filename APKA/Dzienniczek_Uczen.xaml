@@ -9,7 +9,7 @@
     <Grid Background="#FF07123C">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -46,7 +46,7 @@
                 <Border Background="#2ECC71" Padding="15,10" Margin="10" CornerRadius="5">
                     <StackPanel>
                         <TextBlock Text="ŚREDNIA" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock x:Name="txtSrednia" Text="0.00" Foreground="White" FontSize="24" FontWeight="Bold" 
+                        <TextBlock x:Name="txtSredniaAll" Text="0.00" Foreground="Black" FontSize="14" FontWeight="Bold" 
                                    HorizontalAlignment="Center" Margin="0,5"/>
                     </StackPanel>
                 </Border>
@@ -55,7 +55,7 @@
                 <Border Background="#FFD7921F" Padding="15,10" Margin="10" CornerRadius="5">
                     <StackPanel>
                         <TextBlock Text="LICZBA OCEN" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock x:Name="txtLiczbaOcen" Text="0" Foreground="White" FontSize="24" FontWeight="Bold" 
+                        <TextBlock x:Name="txtLiczbaOcenAll" Text="0" Foreground="Black" FontSize="14" FontWeight="Bold" 
                                    HorizontalAlignment="Center" Margin="0,5"/>
                     </StackPanel>
                 </Border>
@@ -123,7 +123,6 @@
                     </StackPanel>
                 </Button>
 
-                <!-- FILTROWANIE OCEN -->
 
             </Grid>
 
@@ -155,7 +154,7 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Przedmiot" Binding="{Binding Przedmiot}" Width="*"/>
                         <DataGridTextColumn Header="Ocena" Binding="{Binding Wartosc}" Width="70"/>
-                        <DataGridTextColumn Header="Typ" Binding="{Binding Typ}" Width="100"/>
+                        <DataGridTextColumn Header="Typ" Binding="{Binding Typ, StringFormat={}{0}}" Width="100"/>
                         <DataGridTextColumn Header="Data" Binding="{Binding DataWystawienia, StringFormat=\{0:dd.MM.yyyy\}}" Width="90"/>
                     </DataGrid.Columns>
                 </DataGrid>

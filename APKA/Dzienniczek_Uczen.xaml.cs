@@ -15,7 +15,10 @@ namespace APKA
         public Dzienniczek_Uczen(Uczen osoba)
         {
             InitializeComponent();
+
             zalogowany = osoba;
+
+
             InicjalizujDane();
             ZaladujDane();
             ObliczStatystyki();
@@ -28,12 +31,22 @@ namespace APKA
             cmbFiltrujPrzedmiot.Items.Clear();
             cmbFiltrujPrzedmiot.Items.Add("Wszystkie przedmioty");
 
-            foreach (Przedmiot przedmiot in Enum.GetValues(typeof(Przedmiot)))
+            var przedmiotyUcznia = zalogowany.Oceny
+            .Select(o => o.Przedmiot)
+            .Distinct()
+            .OrderBy(p => p.ToString())
+            .ToList();
+
+            foreach (var przedmiot in przedmiotyUcznia)
             {
                 cmbFiltrujPrzedmiot.Items.Add(przedmiot.ToString());
             }
+
             cmbFiltrujPrzedmiot.SelectedIndex = 0;
+            ObliczStatystyki();
         }
+
+
 
         private void ZaladujDane()
         {
@@ -44,6 +57,8 @@ namespace APKA
             txtUwagiInfo.Text = $"{zalogowany.Uwagi.Count} uwag";
 
             ZaladujSprawdziany();
+
+            ObliczStatystyki();
         }
 
         private void ZaladujSprawdziany()
@@ -61,42 +76,16 @@ namespace APKA
         {
             if (zalogowany.Oceny.Count == 0)
             {
-                txtSrednia.Text = "0.00";
-                txtLiczbaOcen.Text = "0";
+                txtSredniaAll.Text = "0.00";
+                txtLiczbaOcenAll.Text = "0";
                 return;
             }
 
             double srednia = zalogowany.Oceny.Average(o => o.Wartosc);
-            txtSrednia.Text = srednia.ToString("F2");
-            txtLiczbaOcen.Text = zalogowany.Oceny.Count.ToString();
+            txtSredniaAll.Text = srednia.ToString("F2");
+            txtLiczbaOcenAll.Text = zalogowany.Oceny.Count.ToString();
         }
 
-        private void FiltrujOceny()
-        {
-            if (aktualnyPrzedmiot.HasValue)
-            {
-                var filtrowaneOceny = zalogowany.Oceny
-                    .Where(o => o.Przedmiot == aktualnyPrzedmiot.Value)
-                    .ToList();
-                GridOceny.ItemsSource = filtrowaneOceny;
-
-                if (filtrowaneOceny.Count > 0)
-                {
-                    double sredniaPrzedmiot = filtrowaneOceny.Average(o => o.Wartosc);
-                    txtPodsumowaniePrzedmiot.Text = $"{aktualnyPrzedmiot.Value}: {filtrowaneOceny.Count} ocen, Średnia: {sredniaPrzedmiot:F2}";
-                    PanelPodsumowanie.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    PanelPodsumowanie.Visibility = Visibility.Collapsed;
-                }
-            }
-            else
-            {
-                GridOceny.ItemsSource = zalogowany.Oceny;
-                PanelPodsumowanie.Visibility = Visibility.Collapsed;
-            }
-        }
 
         // --- OBSŁUGA ZDARZEŃ ---
         private void Logout_Click(object sender, RoutedEventArgs e)
@@ -147,7 +136,7 @@ namespace APKA
 
             MessageBox.Show(
                 $"Statystyki ucznia:\n\n" +
-                $"Średnia ocen: {txtSrednia.Text}\n" +
+                $"Średnia ocen: {txtSredniaAll.Text}\n" +
                 $"Liczba ocen: {zalogowany.Oceny.Count}\n" +
                 $"Liczba uwag: {zalogowany.Uwagi.Count}\n" +
                 $"Nadchodzące sprawdziany: {liczbaSprawdzianow}\n",
@@ -157,7 +146,7 @@ namespace APKA
         private void ObliczSrednia_Click(object sender, RoutedEventArgs e)
         {
             ObliczStatystyki();
-            MessageBox.Show($"Średnia ocen: {txtSrednia.Text}", "Średnia ocen",
+            MessageBox.Show($"Średnia ocen: {txtSredniaAll.Text}", "Średnia ocen",
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -175,9 +164,29 @@ namespace APKA
                 if (Enum.TryParse<Przedmiot>(wybrany, out Przedmiot przedmiot))
                 {
                     aktualnyPrzedmiot = przedmiot;
-                    FiltrujOceny();
+
+                    // Filtruj oceny
+                    var filtrowaneOceny = zalogowany.Oceny
+                        .Where(o => o.Przedmiot == przedmiot)
+                        .ToList();
+                    GridOceny.ItemsSource = filtrowaneOceny;
+
+                    // Pokaz podsumowanie
+                    if (filtrowaneOceny.Count > 0)
+                    {
+                        double sredniaPrzedmiot = filtrowaneOceny.Average(o => o.Wartosc);
+                        txtPodsumowaniePrzedmiot.Text =
+                            $"{przedmiot}: {filtrowaneOceny.Count} ocen, Średnia: {sredniaPrzedmiot:F2}";
+                        PanelPodsumowanie.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        PanelPodsumowanie.Visibility = Visibility.Collapsed;
+                    }
+
                 }
             }
         }
     }
+
 }
