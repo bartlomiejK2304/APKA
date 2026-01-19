@@ -11,7 +11,6 @@ namespace Klasy
         public DateTime DataWystawienia { get; set; }
         public string Wystawil { get; set; }
 
-        public TypUwagi typ { get; set; }
 
         public Uwaga()
         {

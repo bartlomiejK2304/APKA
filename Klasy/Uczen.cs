@@ -30,11 +30,7 @@ namespace APKA
             Uwagi.Add(uwaga);
         }
 
-        public void UsunUwage(Uwaga uwaga)
-        {
-            Uwagi.Remove(uwaga);
-        }
-
+      
 
 
         public override string PobierzNaglowek()
@@ -42,6 +38,10 @@ namespace APKA
             return $"{base.PobierzNaglowek()} (Uczeń kl. {NazwaKlasy})";
         }
 
+        public string ImieNazwisko
+        {
+            get { return $"{Imie} {Nazwisko}"; }
+        }
 
 
 

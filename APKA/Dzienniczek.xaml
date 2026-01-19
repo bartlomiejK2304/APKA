@@ -94,40 +94,74 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="2*"/>
-
                     </Grid.ColumnDefinitions>
+
                     <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
                         <Button Content="← Powrót do menu" Margin="10" Click="BackToMenu_Click" Padding="10,5"/>
-                        <TextBlock Text="Wybierz klase" Margin="20,10,10,2"/>
-                        <ComboBox Name="klasy_wybor" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Klasa_SelectionChanged_1" IsReadOnly="True" />
-                        <TextBlock Text="Wybierz Ucznia" Margin="20,0,0,2"/>
-                        <ComboBox Name="Uczniowie" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="120"/>
-                        <TextBlock Margin="20,0,0,2"><Run Text="Wybierz"/><Run Language="pl-pl" Text=" Przedmiot"/><Run Text=" "/></TextBlock>
-                        <ComboBox Name="Przedmiot"  HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="120"/>
+
+                        <TextBlock Text="Wybierz klasę:" Margin="20,10,10,2" FontWeight="Bold"/>
+                        <ComboBox Name="ComboKlasaOceny" HorizontalAlignment="Left" Margin="20,0,0,5" 
+                      VerticalAlignment="Top" Width="150" SelectionChanged="KlasaOceny_SelectionChanged"/>
+
+                        <TextBlock Text="Wybierz ucznia:" Margin="20,15,10,2" FontWeight="Bold"/>
+                        <ComboBox Name="ComboUczenOceny" HorizontalAlignment="Left" Margin="20,0,0,5" 
+                      VerticalAlignment="Top" Width="150" SelectionChanged="UczenOceny_SelectionChanged"/>
+
+                        <TextBlock Text="Wybierz przedmiot:" Margin="20,15,10,2" FontWeight="Bold"/>
+                        <ComboBox Name="ComboPrzedmiotOceny" HorizontalAlignment="Left" Margin="20,0,0,5" 
+                      VerticalAlignment="Top" Width="150"/>
+
+                        <TextBlock Text="Wybierz typ oceny:" Margin="20,15,10,2" FontWeight="Bold"/>
+                        <ComboBox Name="ComboTypOceny" HorizontalAlignment="Left" Margin="20,0,0,5" 
+                      VerticalAlignment="Top" Width="150">
+                            <ComboBoxItem Content="Sprawdzian"/>
+                            <ComboBoxItem Content="Kartkowka"/>
+                            <ComboBoxItem Content="Odpowiedz"/>
+                            <ComboBoxItem Content="Aktywnosc"/>
+                            <ComboBoxItem Content="Projekt"/>
+                        </ComboBox>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                        <TextBox TextWrapping="Wrap" HorizontalAlignment="Center" Text="Wybierz Ocene:" Width="120" Margin="0,30,10,10" TextChanged="TextBox_TextChanged_1" Background="#FFDDDDDD" BorderBrush="Black" TextAlignment="Center" />
-                        <StackPanel Orientation="Horizontal">
-                            <ListBox x:Name="Oceny" Width="417" Height="72" SelectionChanged="Oceny_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}">
-                                <ListBoxItem Content="1" Background="#FF4D4D" Foreground="White" FontWeight="Bold" Margin="2"/>
-                                <ListBoxItem Content="2" Background="#FF8C4D" Foreground="White" Margin="2"/>
-                                <ListBoxItem Content="3" Background="#FFD44D" Foreground="Black" Margin="2"/>
-                                <ListBoxItem Content="4" Background="#D4FF4D" Foreground="Black" Margin="2"/>
-                                <ListBoxItem Content="5" Background="#4DFF4D" Foreground="Black" Margin="2"/>
-                                <ListBoxItem Content="6" Background="#2ECC71" Foreground="White" FontWeight="Bold" Margin="2"/>
-                            </ListBox>
-                          
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Wybierz ocenę:" FontWeight="Bold" FontSize="14" 
+                       HorizontalAlignment="Center" Margin="0,0,0,15"/>
 
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,0,0,20">
+                            <Button x:Name="BtnOcena1" Content="1" Width="50" Height="50" Margin="5" 
+                        Background="#FF4D4D" Foreground="Black" FontWeight="Bold" 
+                        FontSize="16" Click="OcenaButton_Click" Tag="1"/>
+                            <Button x:Name="BtnOcena2" Content="2" Width="50" Height="50" Margin="5" 
+                        Background="#FF8C4D" Foreground="Black" FontSize="16" 
+                        Click="OcenaButton_Click" Tag="2"/>
+                            <Button x:Name="BtnOcena3" Content="3" Width="50" Height="50" Margin="5" 
+                        Background="#FFD44D" Foreground="Black" FontSize="16" 
+                        Click="OcenaButton_Click" Tag="3"/>
+                            <Button x:Name="BtnOcena4" Content="4" Width="50" Height="50" Margin="5" 
+                        Background="#D4FF4D" Foreground="Black" FontSize="16" 
+                        Click="OcenaButton_Click" Tag="4"/>
+                            <Button x:Name="BtnOcena5" Content="5" Width="50" Height="50" Margin="5" 
+                        Background="#4DFF4D" Foreground="Black" FontSize="16" 
+                        Click="OcenaButton_Click" Tag="5"/>
+                            <Button x:Name="BtnOcena6" Content="6" Width="50" Height="50" Margin="5" 
+                        Background="#2ECC71" Foreground="Black" FontWeight="Bold" 
+                        FontSize="16" Click="OcenaButton_Click" Tag="6"/>
+                        </WrapPanel>
 
-                        </StackPanel>
-                        <Button Content="Dodaj Ocene" Margin="20" Click="Ocena_Add_Click" />
+                        <Border BorderBrush="#2ECC71" BorderThickness="2" CornerRadius="5" 
+                    Padding="10" Margin="0,0,0,20" Background="#F0FFF0">
+                            <StackPanel>
+                                <TextBlock Text="Szczegóły oceny:" FontWeight="Bold" 
+                               Foreground="#2ECC71" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="TxtSzczegolyOceny" Text="Nie wybrano oceny" 
+                               HorizontalAlignment="Center" Margin="0,5"/>
+                            </StackPanel>
+                        </Border>
 
-
-
+                        <Button Content="DODAJ OCENĘ" Width="180" Height="40" 
+                    Background="#2ECC71" Foreground="White" FontWeight="Bold"
+                    Click="DodajOcene_Click"/>
                     </StackPanel>
                 </Grid>
-
             </StackPanel>
 
             <!-- WIDOK UCZNIÓW + UWAGI -->
@@ -178,13 +212,7 @@
                 <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="10">
                     <StackPanel>
 
-                        <StackPanel>
-                            <TextBlock Text="Typ uwagi:" FontWeight="Bold" Margin="0,0,0,5"/>
-                            <ComboBox x:Name="ComboTypUwagi" Width="120" HorizontalAlignment="Left" Margin="0,5">
-                                <ComboBoxItem Content="Pozytywna" Tag="Pozytywna"/>
-                                <ComboBoxItem Content="Negatywna" Tag="Negatywna"/>
-                            </ComboBox>
-                        </StackPanel>
+                        
 
                         <TextBox x:Name="TxtUwaga"
                                  Height="60"

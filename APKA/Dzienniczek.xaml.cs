@@ -10,25 +10,46 @@ namespace APKA
 {
     public partial class Dzienniczek : UserControl
     {
-
         private Nauczyciel zalogowany;
+        private List<Uczen> uczniowieKlasy = new List<Uczen>();
+        private Uczen wybranyUczenOceny = null;
+        private int wybranaWartoscOceny = 0;
 
-       
         public Dzienniczek(Nauczyciel osoba)
         {
             InitializeComponent();
             zalogowany = (Nauczyciel)osoba;
 
             UserDisplay.Text = zalogowany.PobierzNaglowek();
-            klasy_wybor.ItemsSource = osoba.Przedmioty;
 
+            WypelnijPrzedmiotyDlaOcen();
+
+            WypelnijKlasyOceny();
+        }
+
+        private void WypelnijKlasyOceny()
+        {
+            ComboKlasaOceny.Items.Add(new ComboBoxItem { Content = "1A" });
+            ComboKlasaOceny.Items.Add(new ComboBoxItem { Content = "1B" });
+            ComboKlasaOceny.Items.Add(new ComboBoxItem { Content = "2A" });
+        }
+
+        private void WypelnijPrzedmiotyDlaOcen()
+        {
+            if (ComboPrzedmiotOceny != null && zalogowany?.Przedmioty != null)
+            {
+                ComboPrzedmiotOceny.Items.Clear();
+                foreach (var przedmiot in zalogowany.Przedmioty)
+                {
+                    ComboPrzedmiotOceny.Items.Add(przedmiot);
+                }
+            }
         }
 
         private void Subject_Click(object sender, MouseButtonEventArgs e)
         {
             var border = (Border)sender;
             string subjectName = border.Tag.ToString();
-
             MessageBox.Show("Otwieram szczegóły dla: " + subjectName);
         }
 
@@ -95,6 +116,145 @@ namespace APKA
             }
         }
 
+        private void KlasaOceny_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboKlasaOceny.SelectedItem == null)
+            {
+                ComboUczenOceny.ItemsSource = null;
+                return;
+            }
+
+            string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
+            uczniowieKlasy = DataManager.PobierzKlase(klasa);
+
+            if (uczniowieKlasy.Count == 0)
+            {
+                MessageBox.Show($"Brak uczniów w klasie {klasa}.");
+
+                ComboUczenOceny.ItemsSource = null;
+                ComboUczenOceny.IsEnabled = false;
+            }
+            else
+            {
+                ComboUczenOceny.ItemsSource = uczniowieKlasy;
+                ComboUczenOceny.DisplayMemberPath = "ImieNazwisko";
+            }
+        }
+
+        private void UczenOceny_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboUczenOceny.SelectedItem == null)
+            {
+                wybranyUczenOceny = null;
+                return;
+            }
+
+            wybranyUczenOceny = (Uczen)ComboUczenOceny.SelectedItem;
+        }
+
+        private void OcenaButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            wybranaWartoscOceny = int.Parse(button.Tag.ToString());
+            AktualizujPodgladOceny();
+        }
+
+        private void AktualizujPodgladOceny()
+        {
+            string? klasa = ComboKlasaOceny.SelectedItem != null
+                ? ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString()
+                : "nie wybrano";
+
+            string uczen = wybranyUczenOceny != null
+                ? $"{wybranyUczenOceny.Imie} {wybranyUczenOceny.Nazwisko}"
+                : "nie wybrano";
+
+            string? przedmiot = ComboPrzedmiotOceny.SelectedItem != null
+                ? ComboPrzedmiotOceny.SelectedItem.ToString()
+                : "nie wybrano";
+
+            string? typOceny = ComboTypOceny.SelectedItem != null ? ((ComboBoxItem)ComboTypOceny.SelectedItem).Content.ToString()
+                : "nie wybrano";
+
+
+            TxtSzczegolyOceny.Text = $"Klasa: {klasa}\n" +
+                                    $"Uczeń: {uczen}\n" +
+                                    $"Przedmiot: {przedmiot}\n" +
+                                    $"Typ oceny: {typOceny}\n" +
+                                    $"Ocena: {(wybranaWartoscOceny > 0 ? wybranaWartoscOceny.ToString() : "nie wybrano")}";
+        }
+
+        private void DodajOcene_Click(object sender, RoutedEventArgs e)
+        {
+            if (ComboKlasaOceny.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz klasę z listy.");
+
+                return;
+            }
+
+            if (ComboUczenOceny.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz ucznia z listy.");
+                return;
+            }
+
+            if (ComboPrzedmiotOceny.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz przedmiot z listy.");
+
+                return;
+            }
+
+            if (ComboTypOceny.SelectedItem == null)
+            {
+                MessageBox.Show("Wybierz typ oceny z listy."); 
+                return;
+            }
+
+            if (wybranaWartoscOceny == 0)
+            {
+                MessageBox.Show("Wybierz ocenę");
+
+                return;
+            }
+
+            
+                Uczen wybranyUczen = (Uczen)ComboUczenOceny.SelectedItem;
+                Przedmiot przedmiot = (Przedmiot)ComboPrzedmiotOceny.SelectedItem;
+                string typString = ((ComboBoxItem)ComboTypOceny.SelectedItem).Content.ToString();
+                TypOceny typ = (TypOceny)Enum.Parse(typeof(TypOceny), typString);
+
+                Ocena nowaOcena = new Ocena
+                {
+                    Wartosc = wybranaWartoscOceny,
+                    Przedmiot = przedmiot,
+                    Typ = typ,
+                    DataWystawienia = DateTime.Now
+                };
+
+                wybranyUczen.Oceny.Add(nowaOcena);
+
+                DataManager.Zapisz();
+
+                string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
+                MessageBox.Show(
+                    $"Dodano ocenę: {wybranaWartoscOceny}\n" +
+                    $"Uczeń: {wybranyUczen.Imie} {wybranyUczen.Nazwisko}\n" +
+                    $"Klasa: {klasa}\n" +
+                    $"Przedmiot: {przedmiot}\n" +
+                    $"Typ: {typ}",
+                    "Ocena dodana pomyślnie"
+
+                );
+                wybranaWartoscOceny = 0;
+                wybranyUczenOceny = null;
+
+                      
+        }
+
+
+
         private void BtnDodajUwage_Click(object sender, RoutedEventArgs e)
         {
             if (ListaUczniow.SelectedItem == null)
@@ -108,14 +268,7 @@ namespace APKA
                 MessageBox.Show("Wpisz treść uwagi.");
                 return;
             }
-            if (ComboTypUwagi.SelectedItem == null)
-            {
-                MessageBox.Show("Wybierz typ uwagi.");
-                return;
-            }
-
-            var typUwagi = (ComboTypUwagi.SelectedItem as ComboBoxItem).Tag.ToString();
-            TypUwagi typ = typUwagi == "Pozytywna" ? TypUwagi.Pozytywna : TypUwagi.Negatywna;
+           
 
             Uczen wybranyUczen = (Uczen)ListaUczniow.SelectedItem;
             wybranyUczen.DodajUwage(new Uwaga
@@ -123,7 +276,7 @@ namespace APKA
                 Tresc = TxtUwaga.Text,
                 DataWystawienia = DateTime.Today,
                 Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko,
-                typ = typ
+              
             });
 
 
@@ -132,9 +285,9 @@ namespace APKA
             MessageBox.Show("Dodano uwagę!");
 
             TxtUwaga.Text = "";
-            ComboTypUwagi.SelectedItem = null;
-
+          
         }
+
         private void BtnDodajSprawdzian_Click(object sender, RoutedEventArgs e)
         {
             if (ComboKlasaSprawdziany.SelectedItem == null)
@@ -147,9 +300,9 @@ namespace APKA
 
             if (DateSprawdzian.SelectedDate == null )
 
-                /* 
-                 TBD
-                 DateSprawdzia*/
+            /* 
+             TBD
+             DateSprawdzia*/
             {
                 MessageBox.Show("Wybierz datę sprawdzianu.");
                 return;
@@ -163,9 +316,9 @@ namespace APKA
                 return;
             }
 
-                string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
-            DateTime data = DateSprawdzian.SelectedDate.Value;
 
+            string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
+            DateTime data = DateSprawdzian.SelectedDate.Value;
 
             Przedmiot przedmiot = zalogowany.Przedmioty.FirstOrDefault();
             Sprawdzian nowySprawdzian = new Sprawdzian(przedmiot, "Sprawdzian", data, klasa);
