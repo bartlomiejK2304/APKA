@@ -20,7 +20,7 @@ namespace APKA
         public MainWindow()
         {
             InitializeComponent();
-            DataManager.Wczytaj();
+            BazaDanychDziennika.Wczytaj();
             MainContent.Content = new Login();
         }
 
