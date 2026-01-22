@@ -104,6 +104,8 @@ namespace APKA
 
             var uczniowie = DataManager.PobierzKlase(klasa);
 
+            uczniowie.Sort();
+
             if (uczniowie.Count == 0)
             {
                 ListaUczniow.ItemsSource = null;

@@ -127,7 +127,7 @@
             </Grid>
 
             <!-- WIDOK OCEN -->
-            <StackPanel x:Name="WidokOceny" Visibility="Collapsed" Margin="20">
+            <StackPanel x:Name="WidokOceny" Visibility="Visible" Margin="20">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -143,6 +143,8 @@
                                   SelectionChanged="FiltrujOceny_Changed">
                             <ComboBoxItem Content="Wszystkie przedmioty"/>
                         </ComboBox>
+                        <Button Content="Sortuj" Click="Sortuj_Click" 
+                                Padding="10,5" Background="#FF962ECC" Foreground="White" Margin="0,0,10,0"/>
                         <Button Content=" Oblicz średnią" Click="ObliczSrednia_Click" 
                                 Padding="10,5" Background="#2ECC71" Foreground="White"/>
                     </StackPanel>

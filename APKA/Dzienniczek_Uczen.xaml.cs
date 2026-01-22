@@ -187,6 +187,12 @@ namespace APKA
                 }
             }
         }
+        //sortowanie ocen od najwyższych do najniższych
+        private void Sortuj_Click(object sender, RoutedEventArgs e)
+        {
+            zalogowany.Oceny.Sort(new OcenaSort());
+            GridOceny.Items.Refresh();
+        }
     }
 
 }
