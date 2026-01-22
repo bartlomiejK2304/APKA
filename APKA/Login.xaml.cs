@@ -32,7 +32,7 @@ namespace APKA
             string login = LoginBox.Text;
             string haslo = PasswordBox.Password;
 
-            Osoba osoba = DataManager.Zaloguj(login, haslo);
+            Osoba osoba = BazaDanychDziennika.Zaloguj(login, haslo);
 
             if (osoba == null)
             {

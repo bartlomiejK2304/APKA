@@ -63,7 +63,7 @@ namespace APKA
 
         private void ZaladujSprawdziany()
         {
-            var mojeSprawdziany = DataManager.PobierzSprawdzianyDlaKlasy(zalogowany.NazwaKlasy)
+            var mojeSprawdziany = BazaDanychDziennika.PobierzSprawdzianyDlaKlasy(zalogowany.NazwaKlasy)
                 .Where(s => s.Data >= DateTime.Today)
                 .OrderBy(s => s.Data)
                 .ToList();

@@ -2,6 +2,7 @@
 using Klasy;
 using System;
 
+
 namespace TestyJednostkowe
 {
     [TestClass]
@@ -136,29 +137,29 @@ namespace TestyJednostkowe
         public void TestLogowania()
         {
             //Arrange
-            DataManager.Uczniowie = new List<Uczen>();
-            DataManager.Nauczyciele = new List<Nauczyciel>();
+            BazaDanychDziennika.Uczniowie = new List<Uczen>();
+            BazaDanychDziennika.Nauczyciele = new List<Nauczyciel>();
           
-            DataManager.Uczniowie.Add(new Uczen("Jan", "Kowalski", "00000000000", "uczen1", "haslo123", "1A"));
-            DataManager.Nauczyciele.Add(new Nauczyciel("Anna", "Nowak", "11111111111", "nauczyciel1", "haslo123", Przedmiot.Biologia));
+            BazaDanychDziennika.Uczniowie.Add(new Uczen("Jan", "Kowalski", "00000000000", "uczen1", "haslo123", "1A"));
+            BazaDanychDziennika.Nauczyciele.Add(new Nauczyciel("Anna", "Nowak", "11111111111", "nauczyciel1", "haslo123", Przedmiot.Biologia));
 
 
             //Act + Assert
 
             //Przypadek A Poprawne logowanie ucznia
 
-            Osoba zalogowanyUczen = DataManager.Zaloguj("uczen1", "haslo123");
+            Osoba zalogowanyUczen = BazaDanychDziennika.Zaloguj("uczen1", "haslo123");
             Assert.IsNotNull(zalogowanyUczen);
 
             //Przypadek B Poprawne logowanie Nauczyciela
 
-            Osoba zalogowanyNauczyciel = DataManager.Zaloguj("nauczyciel1", "haslo123");
+            Osoba zalogowanyNauczyciel = BazaDanychDziennika.Zaloguj("nauczyciel1", "haslo123");
             Assert.IsNotNull(zalogowanyNauczyciel);
 
             //Przypadek C Bledne haslo
 
 
-            Osoba nieudaneLogowanie = DataManager.Zaloguj("uczen1", "zlehaslo");
+            Osoba nieudaneLogowanie = BazaDanychDziennika.Zaloguj("uczen1", "zlehaslo");
             Assert.IsNull(nieudaneLogowanie);
 
 

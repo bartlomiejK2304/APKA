@@ -3,23 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
 namespace Klasy
 {
     
-    public static class DataManager
+    public static class BazaDanychDziennika
     {
         public static List<Uczen> Uczniowie = new();
         public static List<Nauczyciel> Nauczyciele = new();
         public static List<Sprawdzian> Sprawdziany = new();
 
-        // Plik zapisu
+       
         private static string Sciezka = "dane.xml";
 
         public static void Wczytaj()
         {
-            DziennikStore? wczytaneDane = DziennikStore.OdczytXml(Sciezka);
+            ZapisDziennika? wczytaneDane = ZapisDziennika.OdczytXml(Sciezka);
 
             if (wczytaneDane != null)
             {
@@ -33,12 +32,12 @@ namespace Klasy
 
         public static void Zapisz()
         {
-            DziennikStore store = new DziennikStore();
-            store.ListaUczniow = Uczniowie;
-            store.ListaNauczycieli = Nauczyciele;
-            store.ListaSprawdzianow = Sprawdziany;
+            ZapisDziennika dziennikDanych = new ZapisDziennika();
+            dziennikDanych.ListaUczniow = Uczniowie;
+            dziennikDanych.ListaNauczycieli = Nauczyciele;
+            dziennikDanych.ListaSprawdzianow = Sprawdziany;
 
-            store.ZapisXml(Sciezka);
+            dziennikDanych.ZapisXml(Sciezka);
         }
 
 
@@ -65,38 +64,5 @@ namespace Klasy
             return Sprawdziany.Where(s => s.Klasa == klasa).ToList();
         }
       
-    }
-
-  
-    [XmlRoot("DziennikDanych")]
-    public class DziennikStore
-    {
-        public List<Uczen> ListaUczniow { get; set; }
-        public List<Nauczyciel> ListaNauczycieli { get; set; }
-        public List<Sprawdzian> ListaSprawdzianow { get; set; }
-
-        public DziennikStore()
-        {
-            ListaUczniow = new List<Uczen>();
-            ListaNauczycieli = new List<Nauczyciel>();
-            ListaSprawdzianow = new List<Sprawdzian>();
-        }
-
-        public void ZapisXml(string nazwaPliku)
-        {
-            using StreamWriter sw = new StreamWriter(nazwaPliku);
-            XmlSerializer xs = new XmlSerializer(typeof(DziennikStore));
-            xs.Serialize(sw, this);
-        }
-
-        public static DziennikStore? OdczytXml(string nazwaPliku)
-        {
-            if (!File.Exists(nazwaPliku)) return null;
-
-            using StreamReader sr = new StreamReader(nazwaPliku);
-            XmlSerializer xs = new XmlSerializer(typeof(DziennikStore));
-
-            return (DziennikStore?)xs.Deserialize(sr);
-        }
     }
 }
