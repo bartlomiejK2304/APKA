@@ -104,6 +104,8 @@ namespace APKA
 
             var uczniowie = BazaDanychDziennika.PobierzKlase(klasa);
 
+            uczniowie.Sort();
+
             if (uczniowie.Count == 0)
             {
                 ListaUczniow.ItemsSource = null;
