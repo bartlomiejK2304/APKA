@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Tasks; // Ważne dla Task.Delay
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -27,19 +28,15 @@ namespace APKA
         {
             InitializeComponent();
         }
-
         /// <summary>
         /// Obsługuje kliknięcie przycisku "Zaloguj".
-        /// Weryfikuje dane w BazaDanychDziennika, uruchamia animację wyjścia i przekierowuje do odpowiedniego panelu (Nauczyciel/Uczeń).
+        /// Weryfikuje dane w DataManagerze, uruchamia animację wyjścia i przekierowuje do odpowiedniego panelu.
         /// </summary>
-        /// <param name="sender">Źródło zdarzenia.</param>
-        /// <param name="e">Argumenty zdarzenia.</param>
         private async void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             string login = LoginBox.Text;
             string haslo = PasswordBox.Password;
 
-            // Weryfikacja danych logowania
             Osoba osoba = BazaDanychDziennika.Zaloguj(login, haslo);
 
             if (osoba == null)
@@ -50,7 +47,8 @@ namespace APKA
                 return;
             }
 
-            // Rozpoczęcie sekwencji logowania (blokada przycisku, animacje)
+            // Jeśli poprawne – przechodzimy dalej
+
             BtnLogin.IsEnabled = false;
             BtnLogin.Content = "Logowanie...";
 
@@ -77,6 +75,8 @@ namespace APKA
             if (LoginContainer.RenderTransform is TranslateTransform transform)
             {
                 transform.BeginAnimation(TranslateTransform.YProperty, slideUp);
+                SoundPlayer player = new SoundPlayer("muzyka.wav");
+                player.Play();
             }
 
             // Oczekiwanie na zakończenie animacji
