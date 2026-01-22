@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Klasy
 {
-
+    /// <summary>
+    /// Reprezentuje pojedynczą ocenę ucznia.
+    /// Zawiera walidację wartości (1-6) oraz daty wystawienia.
+    /// </summary>
     public class Ocena
     {
         private int wartosc;
@@ -15,6 +18,10 @@ namespace Klasy
         private TypOceny typ;
         private DateTime dataWystawienia;
 
+        /// <summary>
+        /// Wartość numeryczna oceny (od 1 do 6).
+        /// </summary>
+        /// <exception cref="DziennikException">Rzucany, gdy wartość jest spoza zakresu 1-6.</exception>
         public int Wartosc
         {
             get => wartosc;
@@ -26,9 +33,20 @@ namespace Klasy
             }
         }
 
+        /// <summary>
+        /// Przedmiot szkolny, z którego wystawiona jest ocena.
+        /// </summary>
         public Przedmiot Przedmiot { get => przedmiot; set => przedmiot = value; }
+
+        /// <summary>
+        /// Typ oceny (np. Sprawdzian, Kartkówka).
+        /// </summary>
         public TypOceny Typ { get => typ; set => typ = value; }
 
+        /// <summary>
+        /// Data wystawienia oceny. Nie może być z przyszłości.
+        /// </summary>
+        /// <exception cref="DziennikException">Rzucany, gdy data jest późniejsza niż obecna.</exception>
         public DateTime DataWystawienia
         {
             get => dataWystawienia;
@@ -40,11 +58,11 @@ namespace Klasy
             }
         }
 
-        public Ocena()
-        {
-            
-        }
+        public Ocena() { }
 
+        /// <summary>
+        /// Tworzy nową ocenę i ustawia datę wystawienia na obecną chwilę.
+        /// </summary>
         public Ocena(int wartosc, Przedmiot przedmiot, TypOceny typ, DateTime dataWystawienia)
         {
             Wartosc = wartosc;
@@ -52,6 +70,10 @@ namespace Klasy
             Typ = typ;
             DataWystawienia = DateTime.Now;
         }
+
+        /// <summary>
+        /// Klasa zagnieżdżona implementująca komparator do sortowania ocen malejąco.
+        /// </summary>
         public class OcenaWartoscComparer : IComparer<Ocena>
         {
             public int Compare(Ocena? x, Ocena? y)

@@ -7,23 +7,32 @@ using Klasy;
 
 namespace APKA
 {
+    /// <summary>
+    /// Panel główny dla Ucznia.
+    /// Umożliwia przeglądanie własnych ocen, uwag i sprawdzianów oraz analizę statystyk.
+    /// </summary>
     public partial class Dzienniczek_Uczen : UserControl
     {
         private Uczen zalogowany;
         private Przedmiot? aktualnyPrzedmiot = null;
 
+        /// <summary>
+        /// Inicjalizuje panel danymi zalogowanego ucznia.
+        /// </summary>
+        /// <param name="osoba">Obiekt ucznia.</param>
         public Dzienniczek_Uczen(Uczen osoba)
         {
             InitializeComponent();
-
             zalogowany = osoba;
-
 
             InicjalizujDane();
             ZaladujDane();
             ObliczStatystyki();
         }
 
+        /// <summary>
+        /// Przygotowuje dane wstępne: nagłówek oraz filtry przedmiotów w ComboBox.
+        /// </summary>
         private void InicjalizujDane()
         {
             UserDisplay.Text = zalogowany.PobierzNaglowek();
@@ -31,6 +40,7 @@ namespace APKA
             cmbFiltrujPrzedmiot.Items.Clear();
             cmbFiltrujPrzedmiot.Items.Add("Wszystkie przedmioty");
 
+            // Pobranie listy unikalnych przedmiotów, z których uczeń ma oceny
             var przedmiotyUcznia = zalogowany.Oceny
             .Select(o => o.Przedmiot)
             .Distinct()
@@ -46,8 +56,9 @@ namespace APKA
             ObliczStatystyki();
         }
 
-
-
+        /// <summary>
+        /// Ładuje dane do tabel (DataGrid) ocen, uwag i sprawdzianów.
+        /// </summary>
         private void ZaladujDane()
         {
             GridOceny.ItemsSource = zalogowany.Oceny;
@@ -57,10 +68,12 @@ namespace APKA
             txtUwagiInfo.Text = $"{zalogowany.Uwagi.Count} uwag";
 
             ZaladujSprawdziany();
-
             ObliczStatystyki();
         }
 
+        /// <summary>
+        /// Pobiera i wyświetla nadchodzące sprawdziany dla klasy ucznia.
+        /// </summary>
         private void ZaladujSprawdziany()
         {
             var mojeSprawdziany = BazaDanychDziennika.PobierzSprawdzianyDlaKlasy(zalogowany.NazwaKlasy)
@@ -72,6 +85,9 @@ namespace APKA
             txtSprawdzianyInfo.Text = $"{mojeSprawdziany.Count} nadchodzi";
         }
 
+        /// <summary>
+        /// Oblicza ogólną średnią ocen i aktualizuje liczniki w panelu statystyk.
+        /// </summary>
         private void ObliczStatystyki()
         {
             if (zalogowany.Oceny.Count == 0)
@@ -86,48 +102,9 @@ namespace APKA
             txtLiczbaOcenAll.Text = zalogowany.Oceny.Count.ToString();
         }
 
-
-        // --- OBSŁUGA ZDARZEŃ ---
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = (MainWindow)Window.GetWindow(this);
-            if (mainWindow?.MainContent is ContentControl contentControl)
-            {
-                contentControl.Content = new Login();
-            }
-        }
-
-        private void MenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button btn)
-            {
-                PanelMenu.Visibility = Visibility.Collapsed;
-                WidokOceny.Visibility = Visibility.Collapsed;
-                WidokUwag.Visibility = Visibility.Collapsed;
-                WidokSprawdzianow.Visibility = Visibility.Collapsed;
-
-                if (btn.Name == "btnOcenyMenu")
-                    WidokOceny.Visibility = Visibility.Visible;
-                else if (btn.Name == "btnUwagiMenu")
-                    WidokUwag.Visibility = Visibility.Visible;
-                else if (btn.Name == "btnSprawdzianyMenu")
-                    WidokSprawdzianow.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void BackToMenu_Click(object sender, RoutedEventArgs e)
-        {
-            WidokUwag.Visibility = Visibility.Collapsed;
-            WidokOceny.Visibility = Visibility.Collapsed;
-            WidokSprawdzianow.Visibility = Visibility.Collapsed;
-            PanelMenu.Visibility = Visibility.Visible;
-
-            aktualnyPrzedmiot = null;
-            cmbFiltrujPrzedmiot.SelectedIndex = 0;
-            GridOceny.ItemsSource = zalogowany.Oceny;
-            PanelPodsumowanie.Visibility = Visibility.Collapsed;
-        }
-
+        /// <summary>
+        /// Wyświetla okno popup ze zbiorczymi statystykami.
+        /// </summary>
         private void Statystyki_Click(object sender, RoutedEventArgs e)
         {
             ObliczStatystyki();
@@ -143,13 +120,9 @@ namespace APKA
                 "Statystyki", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void ObliczSrednia_Click(object sender, RoutedEventArgs e)
-        {
-            ObliczStatystyki();
-            MessageBox.Show($"Średnia ocen: {txtSredniaAll.Text}", "Średnia ocen",
-                MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
+        /// <summary>
+        /// Filtruje listę ocen po wybranym przedmiocie i oblicza dla niego średnią cząstkową.
+        /// </summary>
         private void FiltrujOceny_Changed(object sender, SelectionChangedEventArgs e)
         {
             if (cmbFiltrujPrzedmiot.SelectedIndex == 0)
@@ -165,13 +138,13 @@ namespace APKA
                 {
                     aktualnyPrzedmiot = przedmiot;
 
-                    // Filtruj oceny
+                    // Filtrowanie listy
                     var filtrowaneOceny = zalogowany.Oceny
                         .Where(o => o.Przedmiot == przedmiot)
                         .ToList();
                     GridOceny.ItemsSource = filtrowaneOceny;
 
-                    // Pokaz podsumowanie
+                    // Wyświetlenie średniej dla przedmiotu
                     if (filtrowaneOceny.Count > 0)
                     {
                         double sredniaPrzedmiot = filtrowaneOceny.Average(o => o.Wartosc);
@@ -183,16 +156,17 @@ namespace APKA
                     {
                         PanelPodsumowanie.Visibility = Visibility.Collapsed;
                     }
-
                 }
             }
         }
-        //sortowanie ocen od najwyższych do najniższych
+
+        /// <summary>
+        /// Sortuje wyświetlaną listę ocen od najwyższej do najniższej używając klasy OcenaSort.
+        /// </summary>
         private void Sortuj_Click(object sender, RoutedEventArgs e)
         {
             zalogowany.Oceny.Sort(new OcenaSort());
             GridOceny.Items.Refresh();
         }
     }
-
 }

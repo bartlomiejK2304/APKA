@@ -8,6 +8,10 @@ using System.Windows.Input;
 
 namespace APKA
 {
+    /// <summary>
+    /// Panel główny dla Nauczyciela.
+    /// Umożliwia zarządzanie ocenami, uwagami oraz planowanie sprawdzianów.
+    /// </summary>
     public partial class Dzienniczek : UserControl
     {
         private Nauczyciel zalogowany;
@@ -15,6 +19,10 @@ namespace APKA
         private Uczen wybranyUczenOceny = null;
         private int wybranaWartoscOceny = 0;
 
+        /// <summary>
+        /// Inicjalizuje panel danymi zalogowanego nauczyciela.
+        /// </summary>
+        /// <param name="osoba">Obiekt zalogowanego nauczyciela.</param>
         public Dzienniczek(Nauczyciel osoba)
         {
             InitializeComponent();
@@ -23,10 +31,12 @@ namespace APKA
             UserDisplay.Text = zalogowany.PobierzNaglowek();
 
             WypelnijPrzedmiotyDlaOcen();
-
             WypelnijKlasyOceny();
         }
 
+        /// <summary>
+        /// Uzupełnia listę klas (hardcoded) w ComboBoxie.
+        /// </summary>
         private void WypelnijKlasyOceny()
         {
             ComboKlasaOceny.Items.Add(new ComboBoxItem { Content = "1A" });
@@ -34,6 +44,9 @@ namespace APKA
             ComboKlasaOceny.Items.Add(new ComboBoxItem { Content = "2A" });
         }
 
+        /// <summary>
+        /// Pobiera przedmioty przypisane do nauczyciela i wypełnia listę rozwijaną.
+        /// </summary>
         private void WypelnijPrzedmiotyDlaOcen()
         {
             if (ComboPrzedmiotOceny != null && zalogowany?.Przedmioty != null)
@@ -46,13 +59,9 @@ namespace APKA
             }
         }
 
-        private void Subject_Click(object sender, MouseButtonEventArgs e)
-        {
-            var border = (Border)sender;
-            string subjectName = border.Tag.ToString();
-            MessageBox.Show("Otwieram szczegóły dla: " + subjectName);
-        }
-
+        /// <summary>
+        /// Obsługuje wylogowanie - powrót do ekranu Login.
+        /// </summary>
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = (MainWindow)Window.GetWindow(this);
@@ -62,8 +71,9 @@ namespace APKA
             }
         }
 
-        
-
+        /// <summary>
+        /// Obsługuje powrót z widoków szczegółowych (Oceny, Uwagi, Sprawdziany) do głównego menu kafelkowego.
+        /// </summary>
         private void BackToMenu_Click(object sender, RoutedEventArgs e)
         {
             WidokStudenci.Visibility = Visibility.Collapsed;
@@ -71,9 +81,12 @@ namespace APKA
             WidokSprawdziany.Visibility = Visibility.Collapsed;
 
             PanelMenu.Visibility = Visibility.Visible;
-            PanelPowitanie.Visibility = Visibility.Visible; // ← WRACA NAPIS
+            PanelPowitanie.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Obsługuje nawigację z głównego menu do odpowiednich podstron.
+        /// </summary>
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
@@ -82,8 +95,7 @@ namespace APKA
             WidokOceny.Visibility = Visibility.Collapsed;
             WidokStudenci.Visibility = Visibility.Collapsed;
             WidokSprawdziany.Visibility = Visibility.Collapsed;
-
-            PanelPowitanie.Visibility = Visibility.Collapsed; // ← ZNIKA NAPIS
+            PanelPowitanie.Visibility = Visibility.Collapsed;
 
             if (btn.Name == "btnOcenyMenu")
                 WidokOceny.Visibility = Visibility.Visible;
@@ -93,17 +105,18 @@ namespace APKA
                 WidokSprawdziany.Visibility = Visibility.Visible;
         }
 
-
-        //wybor klasy
+        /// <summary>
+        /// Wczytuje listę uczniów po wybraniu klasy w module Uwag.
+        /// Sortuje uczniów alfabetycznie.
+        /// </summary>
         private void ComboKlasa_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboKlasa.SelectedItem == null)
-                return;
+            if (ComboKlasa.SelectedItem == null) return;
 
             string klasa = ((ComboBoxItem)ComboKlasa.SelectedItem).Content.ToString();
-
             var uczniowie = BazaDanychDziennika.PobierzKlase(klasa);
 
+            // Sortowanie alfabetyczne (wykorzystuje IComparable w klasie Uczen)
             uczniowie.Sort();
 
             if (uczniowie.Count == 0)
@@ -118,160 +131,57 @@ namespace APKA
             }
         }
 
-        private void KlasaOceny_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ComboKlasaOceny.SelectedItem == null)
-            {
-                ComboUczenOceny.ItemsSource = null;
-                return;
-            }
-
-            string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
-            uczniowieKlasy = BazaDanychDziennika.PobierzKlase(klasa);
-
-            if (uczniowieKlasy.Count == 0 || uczniowieKlasy == null)
-            {
-                MessageBox.Show($"Brak uczniów w klasie {klasa}.");
-
-                ComboUczenOceny.ItemsSource = null;
-                ComboUczenOceny.IsEnabled = false;
-            }
-            else
-            {
-                ComboUczenOceny.ItemsSource = uczniowieKlasy;
-                ComboUczenOceny.DisplayMemberPath = "ImieNazwisko";
-                ComboUczenOceny.IsEnabled = true;
-            }
-        }
-
-        private void UczenOceny_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ComboUczenOceny.SelectedItem == null)
-            {
-                wybranyUczenOceny = null;
-                return;
-            }
-
-            wybranyUczenOceny = (Uczen)ComboUczenOceny.SelectedItem;
-        }
-
-        private void OcenaButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            wybranaWartoscOceny = int.Parse(button.Tag.ToString());
-            AktualizujPodgladOceny();
-        }
-
-        private void AktualizujPodgladOceny()
-        {
-            string? klasa = ComboKlasaOceny.SelectedItem != null
-                ? ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString()
-                : "nie wybrano";
-
-            string uczen = wybranyUczenOceny != null
-                ? $"{wybranyUczenOceny.Imie} {wybranyUczenOceny.Nazwisko}"
-                : "nie wybrano";
-
-            string? przedmiot = ComboPrzedmiotOceny.SelectedItem != null
-                ? ComboPrzedmiotOceny.SelectedItem.ToString()
-                : "nie wybrano";
-
-            string? typOceny = ComboTypOceny.SelectedItem != null ? ((ComboBoxItem)ComboTypOceny.SelectedItem).Content.ToString()
-                : "nie wybrano";
-
-
-            TxtSzczegolyOceny.Text = $"Klasa: {klasa}\n" +
-                                    $"Uczeń: {uczen}\n" +
-                                    $"Przedmiot: {przedmiot}\n" +
-                                    $"Typ oceny: {typOceny}\n" +
-                                    $"Ocena: {(wybranaWartoscOceny > 0 ? wybranaWartoscOceny.ToString() : "nie wybrano")}";
-        }
-
+        /// <summary>
+        /// Dodaje nową ocenę uczniowi.
+        /// Waliduje formularz, tworzy obiekt Ocena, dodaje do ucznia i zapisuje zmiany w bazie.
+        /// </summary>
         private void DodajOcene_Click(object sender, RoutedEventArgs e)
         {
-            if (ComboKlasaOceny.SelectedItem == null)
+            // Walidacja formularza
+            if (ComboKlasaOceny.SelectedItem == null || ComboUczenOceny.SelectedItem == null ||
+                ComboPrzedmiotOceny.SelectedItem == null || ComboTypOceny.SelectedItem == null ||
+                wybranaWartoscOceny == 0)
             {
-                MessageBox.Show("Wybierz klasę z listy.");
-
+                MessageBox.Show("Uzupełnij wszystkie dane oceny.");
                 return;
             }
 
-            if (ComboUczenOceny.SelectedItem == null)
+            // Pobranie danych
+            Uczen wybranyUczen = (Uczen)ComboUczenOceny.SelectedItem;
+            Przedmiot przedmiot = (Przedmiot)ComboPrzedmiotOceny.SelectedItem;
+            string typString = ((ComboBoxItem)ComboTypOceny.SelectedItem).Content.ToString();
+            TypOceny typ = (TypOceny)Enum.Parse(typeof(TypOceny), typString);
+
+            // Utworzenie obiektu oceny
+            Ocena nowaOcena = new Ocena
             {
-                MessageBox.Show("Wybierz ucznia z listy.");
-                return;
-            }
+                Wartosc = wybranaWartoscOceny,
+                Przedmiot = przedmiot,
+                Typ = typ,
+                DataWystawienia = DateTime.Now
+            };
 
-            if (ComboPrzedmiotOceny.SelectedItem == null)
-            {
-                MessageBox.Show("Wybierz przedmiot z listy.");
+            // Zapis danych
+            wybranyUczen.Oceny.Add(nowaOcena);
+            BazaDanychDziennika.Zapisz();
 
-                return;
-            }
+            MessageBox.Show($"Dodano ocenę: {wybranaWartoscOceny} dla {wybranyUczen.ImieNazwisko}", "Sukces");
 
-            if (ComboTypOceny.SelectedItem == null)
-            {
-                MessageBox.Show("Wybierz typ oceny z listy."); 
-                return;
-            }
-
-            if (wybranaWartoscOceny == 0)
-            {
-                MessageBox.Show("Wybierz ocenę");
-
-                return;
-            }
-
-            
-                Uczen wybranyUczen = (Uczen)ComboUczenOceny.SelectedItem;
-                Przedmiot przedmiot = (Przedmiot)ComboPrzedmiotOceny.SelectedItem;
-                string typString = ((ComboBoxItem)ComboTypOceny.SelectedItem).Content.ToString();
-                TypOceny typ = (TypOceny)Enum.Parse(typeof(TypOceny), typString);
-
-                Ocena nowaOcena = new Ocena
-                {
-                    Wartosc = wybranaWartoscOceny,
-                    Przedmiot = przedmiot,
-                    Typ = typ,
-                    DataWystawienia = DateTime.Now
-                };
-
-                wybranyUczen.Oceny.Add(nowaOcena);
-
-                BazaDanychDziennika.Zapisz();
-
-                string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
-                MessageBox.Show(
-                    $"Dodano ocenę: {wybranaWartoscOceny}\n" +
-                    $"Uczeń: {wybranyUczen.Imie} {wybranyUczen.Nazwisko}\n" +
-                    $"Klasa: {klasa}\n" +
-                    $"Przedmiot: {przedmiot}\n" +
-                    $"Typ: {typ}",
-                    "Ocena dodana pomyślnie"
-
-                );
-                wybranaWartoscOceny = 0;
-                wybranyUczenOceny = null;
-
-                      
+            // Resetowanie formularza
+            wybranaWartoscOceny = 0;
+            wybranyUczenOceny = null;
         }
 
-
-
+        /// <summary>
+        /// Dodaje nową uwagę dla wybranego ucznia.
+        /// </summary>
         private void BtnDodajUwage_Click(object sender, RoutedEventArgs e)
         {
-            if (ListaUczniow.SelectedItem == null)
+            if (ListaUczniow.SelectedItem == null || string.IsNullOrWhiteSpace(TxtUwaga.Text))
             {
-                MessageBox.Show("Najpierw wybierz ucznia z listy.");
+                MessageBox.Show("Wybierz ucznia i wpisz treść uwagi.");
                 return;
             }
-
-            if (string.IsNullOrWhiteSpace(TxtUwaga.Text))
-            {
-                MessageBox.Show("Wpisz treść uwagi.");
-                return;
-            }
-          
 
             Uczen wybranyUczen = (Uczen)ListaUczniow.SelectedItem;
             wybranyUczen.DodajUwage(new Uwaga
@@ -281,85 +191,39 @@ namespace APKA
                 Wystawil = zalogowany.Imie + " " + zalogowany.Nazwisko,
             });
 
-
             BazaDanychDziennika.Zapisz();
-
             MessageBox.Show("Dodano uwagę!");
-
             TxtUwaga.Text = "";
         }
 
+        /// <summary>
+        /// Planuje nowy sprawdzian dla wybranej klasy. Sprawdza poprawność daty.
+        /// </summary>
         private void BtnDodajSprawdzian_Click(object sender, RoutedEventArgs e)
         {
-            if (ComboKlasaSprawdziany.SelectedItem == null)
+            if (ComboKlasaSprawdziany.SelectedItem == null || DateSprawdzian.SelectedDate == null)
             {
-                MessageBox.Show("Wybierz klasę.");
+                MessageBox.Show("Wybierz klasę i datę.");
                 return;
             }
 
-            
-
-            if (DateSprawdzian.SelectedDate == null )
-
-            /* 
-             TBD
-             DateSprawdzia*/
+            if (DateSprawdzian.SelectedDate < DateTime.Now)
             {
-                MessageBox.Show("Wybierz datę sprawdzianu.");
+                MessageBox.Show("Data sprawdzianu nie może być z przeszłości.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
-
-            if (DateSprawdzian.SelectedDate <DateTime.Now)
-            {
-                MessageBox.Show("Zła data","Błąd",MessageBoxButton.OK, MessageBoxImage.Error);
-
-                return;
-            }
-
 
             string klasa = ((ComboBoxItem)ComboKlasaSprawdziany.SelectedItem).Content.ToString();
             DateTime data = DateSprawdzian.SelectedDate.Value;
+            Przedmiot przedmiot = zalogowany.Przedmioty.FirstOrDefault(); // Domyślnie pierwszy przedmiot nauczyciela
 
-            Przedmiot przedmiot = zalogowany.Przedmioty.FirstOrDefault();
             Sprawdzian nowySprawdzian = new Sprawdzian(przedmiot, "Sprawdzian", data, klasa);
             BazaDanychDziennika.DodajSprawdzian(nowySprawdzian);
 
-            MessageBox.Show($"Dodano sprawdzian dla klasy {klasa} na dzień {data.ToShortDateString()}!");
+            MessageBox.Show($"Zaplanowano sprawdzian: {klasa}, {data.ToShortDateString()}");
 
-            // Czyścimy wybór
             ComboKlasaSprawdziany.SelectedItem = null;
             DateSprawdzian.SelectedDate = null;
-        }
-
-        private void Klasa_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Ocena_Add_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Klasa_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Oceny_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // handler placeholder for ListBox selection changed - currently no action required
         }
     }
 }

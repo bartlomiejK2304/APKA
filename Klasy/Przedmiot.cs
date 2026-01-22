@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using APKA;
-using Klasy;
-
-
-
-namespace Klasy
+﻿namespace Klasy
 {
+    /// <summary>
+    /// Typ oceny określający wagę i rodzaj aktywności.
+    /// </summary>
     public enum TypOceny
     {
         Sprawdzian,
@@ -17,11 +12,18 @@ namespace Klasy
         Projekt
     }
 
+    /// <summary>
+    /// Rodzaj uwagi behawioralnej.
+    /// </summary>
     public enum TypUwagi
     {
         Pozytywna,
         Negatywna
     }
+
+    /// <summary>
+    /// Lista przedmiotów szkolnych dostępnych w systemie.
+    /// </summary>
     public enum Przedmiot
     {
         JezykPolski,
@@ -37,14 +39,12 @@ namespace Klasy
         WychowanieFizyczne
     }
 
+    /// <summary>
+    /// Niestandardowy wyjątek dla błędów logicznych w dzienniku (np. błędna ocena, zła data).
+    /// </summary>
     public class DziennikException : Exception
     {
         public DziennikException() { }
         public DziennikException(string message) : base(message) { }
     }
-    
-
-  
-
-
 }
