@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks; // Ważne dla Task.Delay
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,7 +18,8 @@ using System.Windows.Shapes;
 namespace APKA
 {
     /// <summary>
-    /// Logika interakcji dla klasy Login.xaml
+    /// Kontrolka użytkownika obsługująca proces logowania.
+    /// Zawiera logikę weryfikacji danych oraz animacje przejścia po udanym logowaniu.
     /// </summary>
     public partial class Login : UserControl
     {
@@ -27,11 +28,18 @@ namespace APKA
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Obsługuje kliknięcie przycisku "Zaloguj".
+        /// Weryfikuje dane w BazaDanychDziennika, uruchamia animację wyjścia i przekierowuje do odpowiedniego panelu (Nauczyciel/Uczeń).
+        /// </summary>
+        /// <param name="sender">Źródło zdarzenia.</param>
+        /// <param name="e">Argumenty zdarzenia.</param>
         private async void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             string login = LoginBox.Text;
             string haslo = PasswordBox.Password;
 
+            // Weryfikacja danych logowania
             Osoba osoba = BazaDanychDziennika.Zaloguj(login, haslo);
 
             if (osoba == null)
@@ -42,11 +50,11 @@ namespace APKA
                 return;
             }
 
-            // Jeśli poprawne – przechodzimy dalej
-
+            // Rozpoczęcie sekwencji logowania (blokada przycisku, animacje)
             BtnLogin.IsEnabled = false;
             BtnLogin.Content = "Logowanie...";
 
+            // Animacja zanikania (Opacity)
             DoubleAnimation fadeOut = new DoubleAnimation
             {
                 From = 1.0,
@@ -55,6 +63,7 @@ namespace APKA
                 EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
             };
 
+            // Animacja przesunięcia w górę (Translate Y)
             DoubleAnimation slideUp = new DoubleAnimation
             {
                 From = 0,
@@ -70,8 +79,10 @@ namespace APKA
                 transform.BeginAnimation(TranslateTransform.YProperty, slideUp);
             }
 
+            // Oczekiwanie na zakończenie animacji
             await Task.Delay(400);
 
+            // Przełączenie widoku w głównym oknie
             var mainWindow = (MainWindow)Window.GetWindow(this);
 
             if (mainWindow != null)
