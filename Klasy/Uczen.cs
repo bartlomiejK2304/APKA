@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 namespace APKA
 {
-    public class Uczen:Osoba
+    public class Uczen:Osoba, IComparable<Uczen>
     {
         public List<Uwaga> Uwagi = new List<Uwaga>();
         public List<Ocena> Oceny = new List<Ocena>();
@@ -47,9 +47,19 @@ namespace APKA
             get { return $"{Imie} {Nazwisko}"; }
         }
 
+        public int CompareTo(Uczen? other)
+        {
+            if (other == null) return 1;
 
+            int wynik = string.Compare(this.Nazwisko, other.Nazwisko, StringComparison.OrdinalIgnoreCase);
 
+            if (wynik == 0)
+            {
+                return string.Compare(this.Imie, other.Imie, StringComparison.OrdinalIgnoreCase);
+            }
 
+            return wynik;
+        }
 
     }
 }

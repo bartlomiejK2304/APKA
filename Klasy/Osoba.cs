@@ -10,7 +10,7 @@ namespace APKA
 {
     [XmlInclude(typeof(Uczen))]
     [XmlInclude(typeof(Nauczyciel))]
-    public abstract class Osoba
+    public abstract class Osoba : IEquatable<Osoba>
     {
         public string ?Imie { get; set; }
         public string ?Nazwisko { get; set; }
@@ -53,7 +53,22 @@ namespace APKA
         {
             return $"{Imie} {Nazwisko}";
         }
-        
-    }
+        public bool Equals(Osoba? other)
+        {
+            if (other == null) return false;
+            return this.Pesel == other.Pesel;
+        }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is Osoba osoba)
+                return Equals(osoba);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Pesel.GetHashCode();
+        }
+    }
 }
