@@ -127,7 +127,7 @@
             </Grid>
 
             <!-- WIDOK OCEN -->
-            <StackPanel x:Name="WidokOceny" Visibility="Visible" Margin="20">
+            <StackPanel x:Name="WidokOceny" Visibility="Collapsed" Margin="20">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
