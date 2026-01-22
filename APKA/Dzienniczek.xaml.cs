@@ -102,7 +102,7 @@ namespace APKA
 
             string klasa = ((ComboBoxItem)ComboKlasa.SelectedItem).Content.ToString();
 
-            var uczniowie = DataManager.PobierzKlase(klasa);
+            var uczniowie = BazaDanychDziennika.PobierzKlase(klasa);
 
             uczniowie.Sort();
 
@@ -127,7 +127,7 @@ namespace APKA
             }
 
             string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
-            uczniowieKlasy = DataManager.PobierzKlase(klasa);
+            uczniowieKlasy = BazaDanychDziennika.PobierzKlase(klasa);
 
             if (uczniowieKlasy.Count == 0 || uczniowieKlasy == null)
             {
@@ -238,7 +238,7 @@ namespace APKA
 
                 wybranyUczen.Oceny.Add(nowaOcena);
 
-                DataManager.Zapisz();
+                BazaDanychDziennika.Zapisz();
 
                 string klasa = ((ComboBoxItem)ComboKlasaOceny.SelectedItem).Content.ToString();
                 MessageBox.Show(
@@ -282,7 +282,7 @@ namespace APKA
             });
 
 
-            DataManager.Zapisz();
+            BazaDanychDziennika.Zapisz();
 
             MessageBox.Show("Dodano uwagę!");
 
@@ -323,7 +323,7 @@ namespace APKA
 
             Przedmiot przedmiot = zalogowany.Przedmioty.FirstOrDefault();
             Sprawdzian nowySprawdzian = new Sprawdzian(przedmiot, "Sprawdzian", data, klasa);
-            DataManager.DodajSprawdzian(nowySprawdzian);
+            BazaDanychDziennika.DodajSprawdzian(nowySprawdzian);
 
             MessageBox.Show($"Dodano sprawdzian dla klasy {klasa} na dzień {data.ToShortDateString()}!");
 
