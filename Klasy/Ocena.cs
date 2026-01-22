@@ -52,6 +52,13 @@ namespace Klasy
             Typ = typ;
             DataWystawienia = DateTime.Now;
         }
-
+        public class OcenaWartoscComparer : IComparer<Ocena>
+        {
+            public int Compare(Ocena? x, Ocena? y)
+            {
+                if (x == null || y == null) return 0;
+                return y.Wartosc.CompareTo(x.Wartosc);
+            }
+        }
     }
 }

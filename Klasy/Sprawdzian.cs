@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klasy
 {
-    public class Sprawdzian
+    public class Sprawdzian : ICloneable
     {
         private Przedmiot przedmiot;
         private DateTime data;
@@ -32,6 +32,9 @@ namespace Klasy
             Temat = temat;
             Klasa = klasa;
         }
-
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }
